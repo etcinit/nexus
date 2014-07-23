@@ -2,7 +2,10 @@
 
 var NexusServer,
     Router = require('./Router'),
-    express = require('express');
+    express = require('express'),
+    hoganExpress = require('hogan-express'),
+    db = require('./Models'),
+    q = require('q');
 
 /**
  * Nexus server
@@ -11,11 +14,19 @@ var NexusServer,
  * @constructor
  */
 NexusServer = function (config) {
-    this.app = express();
+    var app = this.app = express();
+
+    // Keep reference to configuration file
     this.config = config;
 
+    // Setup view engine
+    app.set('view engine', 'html');
+    app.set('layout', 'layout');
+    app.enable('view cache');
+    app.engine('html', hoganExpress);
+
     // Setup app routes
-    this.router = new Router(this.app);
+    this.router = new Router(app);
     this.router.init();
 };
 
@@ -24,9 +35,43 @@ NexusServer = function (config) {
  */
 NexusServer.prototype.listen = function ()
 {
-    var server = this.app.listen(this.config.port || 3000, function () {
-        console.log('Listening on port %d', server.address().port);
-    });
+    var server,
+        app = this.app,
+        config = this.config;
+
+    // Connect to database and start listening
+    this
+        .connectToDb()
+        .then(function () {
+            server = app.listen(config.port || 3000, function () {
+                console.log('Listening on port %d', server.address().port);
+            });
+    }, function (reason) {
+            throw reason;
+        });
+};
+
+/**
+ * Create database connection
+ *
+ * @returns {promise|Q.promise}
+ */
+NexusServer.prototype.connectToDb = function ()
+{
+    var deferred = q.defer();
+
+    db
+        .sequelize
+        .sync({ force: true })
+        .complete(function (err) {
+            if (err) {
+                deferred.reject(err);
+            }
+
+            deferred.resolve();
+        });
+
+    return deferred.promise;
 };
 
 module.exports = NexusServer;

@@ -1,6 +1,7 @@
 "use strict";
 
-var Util;
+var Util,
+    path = require('path');
 
 /**
  * Nexus utility classes
@@ -18,7 +19,7 @@ Util = function () {
  */
 Util.getRootPath = function ()
 {
-    return __dirname + '/../';
+    return path.resolve(__dirname + '/../');
 };
 
 module.exports = Util;
