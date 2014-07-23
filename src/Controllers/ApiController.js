@@ -19,10 +19,10 @@ ApiController =  function (app)
  * @param req
  * @param next
  */
-ApiController.prototype.getIndex = function (res, req, next) {
-    res.headers['Content-Type'] = 'application/json';
+ApiController.prototype.getIndex = function (req, res, next) {
+    res.set('Content-Type', 'application/json');
 
-    return res.write(JSON.stringify({
+    return res.send(JSON.stringify({
         status: 'success',
         message: 'This is NexusConfig v1'
     }));
@@ -36,8 +36,8 @@ ApiController.prototype.getIndex = function (res, req, next) {
  * @param req
  * @param next
  */
-ApiController.prototype.getFetch = function (res, req, next) {
-
+ApiController.prototype.getFetch = function (req, res, next) {
+    res.set('Content-Type', 'application/json');
 };
 
 module.exports = ApiController;
