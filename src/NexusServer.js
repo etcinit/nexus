@@ -2,7 +2,9 @@
 
 var NexusServer,
     Router = require('./Router'),
+    Auth = require('./Auth'),
     express = require('express'),
+    bodyParser = require('body-parser'),
     hoganExpress = require('hogan-express'),
     db = require('./Models'),
     q = require('q');
@@ -16,8 +18,22 @@ var NexusServer,
 NexusServer = function (config) {
     var app = this.app = express();
 
+    // Keep reference to NexusServer
+    app.NexusServer = this;
+
     // Keep reference to configuration file
     this.config = config;
+
+    // Setup body parser
+    // Parse application/x-www-form-urlencoded
+    app.use(bodyParser.urlencoded({ extended: false }));
+
+    // Parse application/json
+    app.use(bodyParser.json());
+
+    // Setup authentication
+    this.auth = new Auth(app);
+    this.auth.setupPassport();
 
     // Setup view engine
     app.set('view engine', 'html');
@@ -58,7 +74,8 @@ NexusServer.prototype.listen = function ()
  */
 NexusServer.prototype.connectToDb = function ()
 {
-    var deferred = q.defer();
+    var deferred = q.defer(),
+        self = this;
 
     db
         .sequelize
@@ -67,6 +84,8 @@ NexusServer.prototype.connectToDb = function ()
             if (err) {
                 deferred.reject(err);
             }
+
+            self.auth.createDefaultUser();
 
             deferred.resolve();
         });

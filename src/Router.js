@@ -117,10 +117,6 @@ Router.prototype.init = function ()
     app.route('/')
         .get(indexInstance.getIndex);
 
-    app.use(indexInstance.getNotFound);
-
-    app.use(indexInstance.getServerError);
-
     // Setup TokensController routes
     tokensInstance = new TokensController(app);
 
@@ -134,6 +130,11 @@ Router.prototype.init = function ()
     app.route('/tokens/:id/revoke')
         .get(tokensInstance.getRevoke)
         .post(tokensInstance.postRevoke);
+
+    // Setup error handlers
+    app.use(indexInstance.getNotFound);
+
+    //app.use(indexInstance.getServerError);
 };
 
 module.exports = Router;
