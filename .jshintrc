@@ -1,0 +1,5 @@
+{
+  "predef": ["ensure"],
+  "node": true,
+  "globalstrict": true
+}
