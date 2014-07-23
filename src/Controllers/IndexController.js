@@ -14,6 +14,12 @@ IndexController = function () {
 };
 
 IndexController.prototype.getIndex = function (req, res, next) {
+    // Redirect to application list if logged in
+    if (req.user) {
+        res.redirect('/apps');
+        return;
+    }
+
     return res.render('index');
 };
 

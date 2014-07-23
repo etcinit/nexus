@@ -20,7 +20,7 @@ ApplicationsController = function (app) {
  * @param next
  */
 ApplicationsController.prototype.getIndex = function (req, res, next) {
-
+    return res.render('applications/index');
 };
 
 /**

@@ -34,6 +34,7 @@ Router = function (app)
 Router.prototype.init = function ()
 {
     var app = this.app,
+        auth = this.app.NexusServer.auth,
         apiInstance,
         applicationsInstance,
         authInstance,
@@ -58,17 +59,21 @@ Router.prototype.init = function ()
     applicationsInstance = new ApplicationsController(app);
 
     app.route('/apps')
+        .all(auth.protect)
         .get(applicationsInstance.getIndex);
 
     app.route('/apps/new')
+        .all(auth.protect)
         .get(applicationsInstance.getNew)
         .post(applicationsInstance.postNew);
 
     app.route('/apps/:id/edit')
+        .all(auth.protect)
         .get(applicationsInstance.getEdit)
         .post(applicationsInstance.postEdit);
 
     app.route('/apps/:id/delete')
+        .all(auth.protect)
         .get(applicationsInstance.getDelete)
         .post(applicationsInstance.postDelete);
 
@@ -86,17 +91,21 @@ Router.prototype.init = function ()
     filesInstance = new FilesController(app);
 
     app.route('/files')
+        .all(auth.protect)
         .get(filesInstance.getIndex);
 
     app.route('/files/new')
+        .all(auth.protect)
         .get(filesInstance.getNew)
         .post(filesInstance.postNew);
 
     app.route('/files/:id/edit')
+        .all(auth.protect)
         .get(filesInstance.getEdit)
         .post(filesInstance.postEdit);
 
     app.route('/files/:id/delete')
+        .all(auth.protect)
         .get(filesInstance.getDelete)
         .post(filesInstance.postDelete);
 
@@ -104,13 +113,16 @@ Router.prototype.init = function ()
     grantsInstance = new GrantsController(app);
 
     app.route('/grants')
+        .all(auth.protect)
         .get(grantsInstance.getIndex);
 
     app.route('/grants/new')
+        .all(auth.protect)
         .get(grantsInstance.getNew)
         .post(grantsInstance.postNew);
 
     app.route('/grants/:id/delete')
+        .all(auth.protect)
         .get(grantsInstance.getDelete)
         .post(grantsInstance.postDelete);
 
@@ -124,13 +136,16 @@ Router.prototype.init = function ()
     tokensInstance = new TokensController(app);
 
     app.route('/tokens')
+        .all(auth.protect)
         .get(tokensInstance.getIndex);
 
     app.route('/tokens/new')
+        .all(auth.protect)
         .get(tokensInstance.getNew)
         .post(tokensInstance.postNew);
 
     app.route('/tokens/:id/revoke')
+        .all(auth.protect)
         .get(tokensInstance.getRevoke)
         .post(tokensInstance.postRevoke);
 

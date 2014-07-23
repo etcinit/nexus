@@ -166,4 +166,14 @@ Auth.prototype.middleware = function (req, res, next) {
     next();
 };
 
+Auth.prototype.protect = function (req, res, next) {
+    if (req.user) {
+        next();
+        return;
+    }
+
+    res.redirect('/');
+    next('route');
+};
+
 module.exports = Auth;
