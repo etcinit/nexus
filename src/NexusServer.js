@@ -22,7 +22,7 @@ NexusServer = function (config) {
     // Setup view engine
     app.set('view engine', 'html');
     app.set('layout', 'layout');
-    app.enable('view cache');
+    //app.enable('view cache');
     app.engine('html', hoganExpress);
 
     // Setup app routes

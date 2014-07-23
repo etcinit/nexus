@@ -3,11 +3,14 @@
 var fs = require('fs'),
     path = require('path'),
     Sequelize = require('sequelize'),
+    Config = require('../Config'),
     lodash = require('lodash'),
-    sequelize = new Sequelize('nexus', 'root', null, {
-        dialect: 'sqlite',
-        storage: 'nexus.db'
-    }),
+    sequelize = new Sequelize(
+        Config.db.database,
+        Config.db.username,
+        Config.db.password,
+        Config.db.options
+    ),
     db = {};
 
 // Dynamically load models

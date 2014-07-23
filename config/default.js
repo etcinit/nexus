@@ -6,7 +6,16 @@ var config;
  * Default configuration file
  */
 config = {
-    port: 5000
+    port: 5000,
+    db: {
+        database: 'nexus',
+        username: 'root',
+        password: null,
+        options: {
+            dialect: 'sqlite',
+            storage: 'nexus.db'
+        }
+    }
 };
 
 module.exports = config;

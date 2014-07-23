@@ -3,6 +3,7 @@
 var Router,
     Util = require('./Util'),
     IndexController = require('./Controllers/IndexController'),
+    AuthController = require('./Controllers/AuthController'),
     express = require('express');
 
 /**
@@ -22,16 +23,24 @@ Router = function (app)
 Router.prototype.init = function ()
 {
     var app = this.app,
-        indexInstance;
+        indexInstance,
+        authInstance;
 
     // Setup route for static content
     this.app.use(express.static(Util.getRootPath() + '/public'));
 
     // Setup IndexController routes
-    indexInstance = new IndexController(this.app);
+    indexInstance = new IndexController(app);
 
     app.route('/')
         .get(indexInstance.getIndex);
+
+    // Setup AuthController routes
+    authInstance = new AuthController(app);
+
+    app.route('/login')
+        .get(authInstance.getLogin)
+        .post(authInstance.postLogin);
 };
 
 module.exports = Router;
