@@ -18,7 +18,13 @@ IndexController.prototype.getIndex = function (req, res, next) {
 };
 
 IndexController.prototype.getNotFound = function (req, res, next) {
-    res.send(404, "Can't find that");
+    res.status(404);
+
+    res.render('errors/notFound');
+};
+
+IndexController.prototype.getServerError = function (req, res, next) {
+    res.send(500, 'Error :(');
 };
 
 module.exports = IndexController;

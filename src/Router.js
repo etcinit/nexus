@@ -119,6 +119,8 @@ Router.prototype.init = function ()
 
     app.use(indexInstance.getNotFound);
 
+    app.use(indexInstance.getServerError);
+
     // Setup TokensController routes
     tokensInstance = new TokensController(app);
 
