@@ -5,6 +5,7 @@ var NexusServer,
     Auth = require('./Auth'),
     express = require('express'),
     bodyParser = require('body-parser'),
+    session = require('express-session'),
     hoganExpress = require('hogan-express'),
     db = require('./Models'),
     q = require('q');
@@ -25,11 +26,17 @@ NexusServer = function (config) {
     this.config = config;
 
     // Setup body parser
+
     // Parse application/x-www-form-urlencoded
     app.use(bodyParser.urlencoded({ extended: false }));
 
     // Parse application/json
     app.use(bodyParser.json());
+
+    // Setup session
+    app.use(session({
+        secret: config.sessionSecret || 'defaultSecret'
+    }));
 
     // Setup authentication
     this.auth = new Auth(app);

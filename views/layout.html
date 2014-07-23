@@ -22,15 +22,22 @@
         <section class="top-bar-section">
             <!-- Right Nav Section -->
             <ul class="right">
+                {{#loggedOut}}
                 <li><a href="/login">Login</a></li>
+                {{/loggedOut}}
+                {{#user}}
+                <li><a href="/logout">Logout</a></li>
+                {{/user}}
             </ul>
 
             <!-- Left Nav Section -->
+            {{#user}}
             <ul class="left">
                 <li><a href="/apps">Applications</a></li>
                 <li><a href="/files">Files</a></li>
                 <li><a href="/tokens">Tokens</a></li>
             </ul>
+            {{/user}}
         </section>
     </nav>
 </div>

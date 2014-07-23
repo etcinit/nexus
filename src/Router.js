@@ -79,6 +79,9 @@ Router.prototype.init = function ()
         .get(authInstance.getLogin)
         .post(authInstance.postLogin);
 
+    app.route('/logout')
+        .get(authInstance.getLogout);
+
     // Setup FilesController routes
     filesInstance = new FilesController(app);
 

@@ -63,6 +63,8 @@ Auth.prototype.setupPassport = function () {
 
     this.app.use(passport.session());
 
+    this.app.use(this.middleware);
+
     passport.use(this.getStrategy());
 
     passport.serializeUser(this.serializeUser);
@@ -146,11 +148,22 @@ Auth.prototype.authenticate = function (req, res, next) {
     passport.authenticate(
         'local',
         {
-            successRedirect: '/login',
-            failureRedirect: '/',
+            successRedirect: '/',
+            failureRedirect: '/login',
             failureFlash: false
         }
     )(req, res, next);
+};
+
+Auth.prototype.middleware = function (req, res, next) {
+    if (req.user) {
+        res.locals.user = req.user;
+        res.locals.loggedIn = true;
+    } else {
+        res.locals.loggedOut = true;
+    }
+
+    next();
 };
 
 module.exports = Auth;
