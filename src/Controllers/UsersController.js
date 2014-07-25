@@ -20,7 +20,7 @@ UsersController = function (app) {
  * @param next
  */
 UsersController.prototype.getIndex = function (req, res, next) {
-
+    return res.render('users/index');
 };
 
 /**

@@ -20,7 +20,7 @@ FilesController = function (app) {
  * @param next
  */
 FilesController.prototype.getIndex = function (req, res, next) {
-
+    return res.render('files/index');
 };
 
 /**

@@ -14,7 +14,7 @@ GrantsController = function (app) {
  * @param next
  */
 GrantsController.prototype.getIndex = function (res, req, next) {
-
+    return res.render('grants/index');
 };
 
 /**

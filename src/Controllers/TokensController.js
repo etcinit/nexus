@@ -20,7 +20,7 @@ TokensController = function (app) {
  * @param next
  */
 TokensController.prototype.getIndex = function (req, res, next) {
-
+    return res.render('tokens/index');
 };
 
 /**

@@ -31,7 +31,7 @@ ApplicationsController.prototype.getIndex = function (req, res, next) {
  * @param next
  */
 ApplicationsController.prototype.getNew = function (req, res, next) {
-
+    return res.render('applications/new');
 };
 
 /**
