@@ -13,6 +13,7 @@ var Router,
     GrantsController = require('./Controllers/GrantsController'),
     IndexController = require('./Controllers/IndexController'),
     TokensController = require('./Controllers/TokensController'),
+    UsersController = require('./Controllers/UsersController'),
 
     // Include dependencies
     express = require('express');
@@ -41,7 +42,8 @@ Router.prototype.init = function ()
         filesInstance,
         grantsInstance,
         indexInstance,
-        tokensInstance;
+        tokensInstance,
+        usersInstance;
 
     // Setup route for static content
     this.app.use(express.static(Util.getRootPath() + '/public'));
@@ -148,6 +150,28 @@ Router.prototype.init = function ()
         .all(auth.protect)
         .get(tokensInstance.getRevoke)
         .post(tokensInstance.postRevoke);
+
+    // Setup UsersController
+    usersInstance = new UsersController(app);
+
+    app.route('/users')
+        .all(auth.protect)
+        .get(usersInstance.getIndex);
+
+    app.route('/users/new')
+        .all(auth.protect)
+        .get(usersInstance.getNew)
+        .post(usersInstance.postNew);
+
+    app.route('/users/:id/edit')
+        .all(auth.protect)
+        .get(usersInstance.getEdit)
+        .post(usersInstance.postEdit);
+
+    app.route('/users/:id/delete')
+        .all(auth.protect)
+        .get(usersInstance.getDelete)
+        .post(usersInstance.postDelete);
 
     // Setup error handlers
     app.use(indexInstance.getNotFound);
