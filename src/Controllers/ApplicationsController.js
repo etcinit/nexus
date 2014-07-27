@@ -31,12 +31,10 @@ ApplicationsController.prototype.getIndex = function (req, res, next) {
         .success(function (applications) {
             res.locals.applications = applications;
             res.render('applications/index');
-            next();
         })
         .error(function (error) {
             req.flash('errorMessages', ['Unable to retrieve applications']);
             res.render('applications/index');
-            next();
         });
 };
 
@@ -84,12 +82,10 @@ ApplicationsController.prototype.postNew = function (req, res, next) {
         .success(function () {
             req.flash('successMessages', ['Successfully created new application']);
             res.redirect('/apps');
-            next();
         })
         .error(function (err) {
             req.flash('errorMessages', ['Unable to create application']);
             res.redirect('/apps/new');
-            next();
         });
 };
 
@@ -107,18 +103,15 @@ ApplicationsController.prototype.getEdit = function (req, res, next) {
             if (application === null) {
                 req.flash('errorMessages', ['Unable to find the specified application']);
                 res.redirect('/apps');
-                next();
                 return;
             }
 
             res.locals.application = application;
             res.render('applications/edit');
-            next();
         })
         .error(function (error) {
             req.flash('errorMessages', ['Unable to find the specified application']);
             res.redirect('/apps');
-            next();
         });
 };
 
@@ -139,7 +132,6 @@ ApplicationsController.prototype.postEdit = function (req, res, next) {
         .error(function (error) {
             req.flash('errorMessages', ['Unable to find the specified application']);
             res.redirect('/apps');
-            next();
         })
         .success(function (application) {
             // Collect input
@@ -164,12 +156,10 @@ ApplicationsController.prototype.postEdit = function (req, res, next) {
                 .success(function () {
                     req.flash('successMessages', ['Successfully updated application']);
                     res.redirect('/apps');
-                    next();
                 })
                 .error(function (err) {
                     req.flash('errorMessages', ['Unable to update application']);
                     res.redirect('/apps/new');
-                    next();
                 });
         });
 };
@@ -188,18 +178,15 @@ ApplicationsController.prototype.getDelete = function (req, res, next) {
             if (application === null) {
                 req.flash('errorMessages', ['Unable to find the specified application']);
                 res.redirect('/apps');
-                next();
                 return;
             }
 
             res.locals.application = application;
             res.render('applications/delete');
-            next();
         })
         .error(function (error) {
             req.flash('errorMessages', ['Unable to find the specified application']);
             res.redirect('/apps');
-            next();
         });
 };
 
@@ -217,7 +204,6 @@ ApplicationsController.prototype.postDelete = function (req, res, next) {
             if (application === null) {
                 req.flash('errorMessages', ['Unable to find the specified application']);
                 res.redirect('/apps');
-                next();
                 return;
             }
 
@@ -234,7 +220,6 @@ ApplicationsController.prototype.postDelete = function (req, res, next) {
         .error(function (error) {
             req.flash('errorMessages', ['Unable to find the specified application']);
             res.redirect('/apps');
-            next();
         });
 };
 
