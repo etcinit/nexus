@@ -13,7 +13,7 @@ GrantsController = function (app) {
  * @param req
  * @param next
  */
-GrantsController.prototype.getIndex = function (res, req, next) {
+GrantsController.prototype.getIndex = function (req, res, next) {
     return res.render('grants/index');
 };
 
@@ -24,8 +24,8 @@ GrantsController.prototype.getIndex = function (res, req, next) {
  * @param req
  * @param next
  */
-GrantsController.prototype.getNew = function (res, req, next) {
-
+GrantsController.prototype.getNew = function (req, res, next) {
+    return res.render('grants/new');
 };
 
 /**
@@ -35,7 +35,7 @@ GrantsController.prototype.getNew = function (res, req, next) {
  * @param req
  * @param next
  */
-GrantsController.prototype.postNew = function (res, req, next) {
+GrantsController.prototype.postNew = function (req, res, next) {
 
 };
 
@@ -46,7 +46,7 @@ GrantsController.prototype.postNew = function (res, req, next) {
  * @param req
  * @param next
  */
-GrantsController.prototype.getDelete = function (res, req, next) {
+GrantsController.prototype.getDelete = function (req, res, next) {
 
 };
 
@@ -57,7 +57,7 @@ GrantsController.prototype.getDelete = function (res, req, next) {
  * @param req
  * @param next
  */
-GrantsController.prototype.postDelete = function (res, req, next) {
+GrantsController.prototype.postDelete = function (req, res, next) {
 
 };
 

@@ -13,8 +13,14 @@ module.exports = function (sequelize, DataTypes) {
     Grant = sequelize.define(
         'Grant',
         {
-            ApplicationId: DataTypes.INTEGER,
-            FileId: DataTypes.INTEGER
+            ApplicationId: {
+                type: DataTypes.INTEGER,
+                unique: 'grantUnique'
+            },
+            FileId: {
+                type: DataTypes.INTEGER,
+                unique: 'grantUnique'
+            }
         }
     );
 

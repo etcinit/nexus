@@ -13,7 +13,13 @@ module.exports = function(sequelize, DataTypes) {
     File = sequelize.define(
         'File',
         {
-            name: DataTypes.STRING
+            name: {
+                type: DataTypes.STRING,
+                unique: true
+            },
+            contents: {
+                type: DataTypes.TEXT
+            }
         }
     );
 

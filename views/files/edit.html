@@ -1,0 +1,46 @@
+<div class="row">
+    <div class="medium-6 medium-centered columns">
+        <h3>Edit file</h3>
+    </div>
+</div>
+
+<div class="row">
+    <div class="medium-6 medium-centered columns">
+        <div class="panel">
+            <form method="post" action="/files/{{file.id}}/edit">
+                <div class="row">
+                    <div class="medium-6 columns">
+                        <label class="inline">Name</label>
+                    </div>
+
+                    <div class="medium-6 columns">
+                        <input type="text" name="name" value="{{file.name}}">
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="small-12 columns">
+                        <label>
+                            Contents
+                            <textarea name="contents" placeholder="File contents go here">{{{file.contents}}}</textarea>
+                        </label>
+                    </div>
+                </div>
+
+                <hr>
+
+                <div class="row">
+                    <div class="small-12 columns">
+                        <a class="button small mar-0-bottom secondary" href="/files">
+                            Cancel
+                        </a>
+
+                        <button type="submit" class="small right mar-0-bottom">
+                            Confirm
+                        </button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

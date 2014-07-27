@@ -31,7 +31,7 @@ UsersController.prototype.getIndex = function (req, res, next) {
  * @param next
  */
 UsersController.prototype.getNew = function (req, res, next) {
-
+    return res.render('users/new');
 };
 
 /**

@@ -146,7 +146,7 @@ ApplicationsController.prototype.postEdit = function (req, res, next) {
             // Show errors if validations failed
             if (validationErrors.length > 0) {
                 req.flash('errorMessages', validationErrors);
-                res.redirect('/apps/new');
+                res.redirect('/apps/' + newApplication.id + '/edit');
                 return;
             }
 

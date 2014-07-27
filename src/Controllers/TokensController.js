@@ -31,7 +31,7 @@ TokensController.prototype.getIndex = function (req, res, next) {
  * @param next
  */
 TokensController.prototype.getNew = function (req, res, next) {
-
+    return res.render('tokens/new');
 };
 
 /**

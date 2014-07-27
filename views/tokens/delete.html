@@ -1,16 +1,19 @@
 <div class="row">
     <div class="medium-4 medium-centered columns">
-        <h3>Delete Application</h3>
+        <h3>Delete Application Token</h3>
 
         <div class="panel">
-            <p>Are you sure you would like to delete "{{application.name}}" ({{application.id}})?</p>
+            <p>
+                Are you sure you would like to delete "{{token.token}}" ({{token.id}})?
+                This will revoke access to clients using this token
+            </p>
 
             <hr>
 
             <div class="row">
                 <div class="small-12 columns">
-                    <form method="post" action="/apps/{{application.id}}/delete">
-                        <a class="button small secondary mar-0-bottom" href="/apps">
+                    <form method="post" action="/tokens/{{token.id}}/delete">
+                        <a class="button small secondary mar-0-bottom" href="/tokens">
                             Cancel
                         </a>
 

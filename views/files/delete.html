@@ -1,16 +1,16 @@
 <div class="row">
     <div class="medium-4 medium-centered columns">
-        <h3>Delete Application</h3>
+        <h3>Delete File</h3>
 
         <div class="panel">
-            <p>Are you sure you would like to delete "{{application.name}}" ({{application.id}})?</p>
+            <p>Are you sure you would like to delete "{{file.name}}" ({{file.id}})?</p>
 
             <hr>
 
             <div class="row">
                 <div class="small-12 columns">
-                    <form method="post" action="/apps/{{application.id}}/delete">
-                        <a class="button small secondary mar-0-bottom" href="/apps">
+                    <form method="post" action="/files/{{file.id}}/delete">
+                        <a class="button small secondary mar-0-bottom" href="/files">
                             Cancel
                         </a>
 

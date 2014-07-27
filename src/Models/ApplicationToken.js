@@ -14,7 +14,10 @@ module.exports = function (sequelize, DataTypes)
     ApplicationToken = sequelize.define(
         'ApplicationToken',
         {
-            token: DataTypes.STRING,
+            token: {
+                type: DataTypes.STRING,
+                unique: true
+            },
             expiration_date: DataTypes.DATE
         },
         {
