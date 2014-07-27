@@ -43,6 +43,14 @@
     </nav>
 </div>
 
+{{#errorMessages}}
+<div class="row">
+    <div class="small-12 columns pad-20-top">
+        <div class="alert-box alert">{{.}}</div>
+    </div>
+</div>
+{{/errorMessages}}
+
 {{{ yield }}}
 
 <script src="bower_components/jquery/dist/jquery.min.js"></script>

@@ -14,6 +14,13 @@
     </div>
 
     <div class="medium-8 columns">
+        {{^applications}}
+        <div class="text-center">
+            There aren't any applications defined
+        </div>
+        {{/applications}}
+
+        {{#applications.length}}
         <table class="expand">
             <thead>
             <tr>
@@ -23,16 +30,27 @@
             </thead>
 
             <tbody>
+            {{#applications}}
             <tr>
                 <td>
                     <h6>
-                        Test App<br>
-                        <small>A testing application</small>
+                        {{name}}<br>
+                        <small>{{description}}</small>
                     </h6>
                 </td>
-                <td>Edit&nbsp;Delete</td>
+                <td>
+                    <a href="/apps/{{id}}/edit">
+                        Edit
+                    </a>
+                    &nbsp;
+                    <a href="/apps/{{id}}/delete">
+                        Delete
+                    </a>
+                </td>
             </tr>
+            {{/applications}}
             </tbody>
         </table>
+        {{/applications.length}}
     </div>
 </div>

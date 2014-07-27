@@ -147,10 +147,26 @@ Auth.prototype.createDefaultUser = function () {
 Auth.prototype.authenticate = function (req, res, next) {
     passport.authenticate(
         'local',
-        {
-            successRedirect: '/',
-            failureRedirect: '/login',
-            failureFlash: false
+        function (err, user, info) {
+            if (err) {
+                next(err);
+                return;
+            }
+
+            if (!user) {
+                req.flash('errorMessages', ['Invalid username/password combination']);
+                res.redirect('/login');
+                return;
+            }
+
+            req.logIn(user, function (err) {
+                if (err) {
+                    next(err);
+                    return;
+                }
+
+                res.redirect('/');
+            });
         }
     )(req, res, next);
 };

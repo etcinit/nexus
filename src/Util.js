@@ -22,4 +22,24 @@ Util.getRootPath = function ()
     return path.resolve(__dirname + '/../');
 };
 
+/**
+ * Parses sequelize errors into a mustache.js friendly array
+ *
+ * @param errors
+ */
+Util.errorsToArray = function (errors) {
+    var errorsArray = [],
+        i;
+
+    for (i in errors) {
+        if (errors.hasOwnProperty(i)) {
+            errors[i].forEach(function (message) {
+                errorsArray.push(message);
+            });
+        }
+    }
+
+    return errorsArray;
+};
+
 module.exports = Util;

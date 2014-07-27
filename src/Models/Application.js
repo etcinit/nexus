@@ -13,8 +13,15 @@ module.exports = function (sequelize, DataTypes) {
     Application = sequelize.define(
         'Application',
         {
-            name: DataTypes.STRING,
-            description: DataTypes.TEXT
+            name: {
+                type: DataTypes.STRING,
+                validate: {
+                    notEmpty: true
+                }
+            },
+            description: {
+                type: DataTypes.TEXT
+            }
         },
         {
             classMethods: {

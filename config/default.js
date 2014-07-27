@@ -14,8 +14,11 @@ config = {
         options: {
             dialect: 'sqlite',
             storage: 'nexus.db'
-        }
-    }
+        },
+        reset: false,
+        createUser: false
+    },
+    sessionSecret: 'defaultSecret'
 };
 
 module.exports = config;

@@ -7,6 +7,7 @@ var NexusServer,
     bodyParser = require('body-parser'),
     session = require('express-session'),
     hoganExpress = require('hogan-express'),
+    flash = require('connect-flash'),
     db = require('./Models'),
     q = require('q');
 
@@ -38,6 +39,15 @@ NexusServer = function (config) {
         secret: config.sessionSecret || 'defaultSecret'
     }));
 
+    // Setup flash messages
+    app.use(flash());
+
+    app.use(function (req, res, next) {
+        res.locals.successMessages = req.flash('successMessages');
+        res.locals.errorMessages = req.flash('errorMessages');
+        next();
+    });
+
     // Setup authentication
     this.auth = new Auth(app);
     this.auth.setupPassport();
@@ -56,8 +66,7 @@ NexusServer = function (config) {
 /**
  * Begin listening
  */
-NexusServer.prototype.listen = function ()
-{
+NexusServer.prototype.listen = function () {
     var server,
         app = this.app,
         config = this.config;
@@ -69,7 +78,7 @@ NexusServer.prototype.listen = function ()
             server = app.listen(config.port || 3000, function () {
                 console.log('Listening on port %d', server.address().port);
             });
-    }, function (reason) {
+        }, function (reason) {
             throw reason;
         });
 };
@@ -79,20 +88,22 @@ NexusServer.prototype.listen = function ()
  *
  * @returns {promise|Q.promise}
  */
-NexusServer.prototype.connectToDb = function ()
-{
+NexusServer.prototype.connectToDb = function () {
     var deferred = q.defer(),
-        self = this;
+        self = this,
+        config = this.config;
 
     db
         .sequelize
-        .sync({ force: true })
+        .sync({ force: config.db.reset })
         .complete(function (err) {
             if (err) {
                 deferred.reject(err);
             }
 
-            self.auth.createDefaultUser();
+            if (config.db.createUser) {
+                self.auth.createDefaultUser();
+            }
 
             deferred.resolve();
         });
