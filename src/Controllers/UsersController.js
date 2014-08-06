@@ -50,7 +50,7 @@ UsersController.prototype.getIndex = function (req, res, next) {
         })
         .error(function (err) {
             req.flash('errorMessages', ['Unable to get users']);
-            res.render('files/index');
+            res.render('/');
         });
 };
 

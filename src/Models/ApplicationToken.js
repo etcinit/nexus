@@ -16,7 +16,13 @@ module.exports = function (sequelize, DataTypes)
         {
             token: {
                 type: DataTypes.STRING,
-                unique: true
+                unique: true,
+                validate: {
+                    notEmpty: true
+                }
+            },
+            comment: {
+                type: DataTypes.STRING
             },
             expiration_date: DataTypes.DATE
         },

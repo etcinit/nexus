@@ -42,4 +42,20 @@ Util.errorsToArray = function (errors) {
     return errorsArray;
 };
 
+/**
+ * Generate a random token
+ *
+ * @returns {string}
+ */
+Util.randomToken = function () {
+    var chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789',
+        result = '';
+
+    for( var i=0; i < 64; i++ ) {
+        result += chars.charAt(Math.floor(Math.random() * chars.length));
+    }
+
+    return result;
+};
+
 module.exports = Util;

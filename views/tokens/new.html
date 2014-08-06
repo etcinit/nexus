@@ -1,0 +1,61 @@
+<div class="row">
+    <div class="medium-6 medium-centered columns">
+        <h3>Create a new token</h3>
+    </div>
+</div>
+
+<div class="row">
+    <div class="medium-6 medium-centered columns">
+        <div class="panel">
+            <form method="post" action="/token/new">
+                <div class="row">
+                    <div class="medium-6 columns">
+                        <label class="inline">Application</label>
+                    </div>
+
+                    <div class="medium-6 columns">
+                        <select name="applicationId">
+                            {{#applications}}
+                            <option value="{{id}}">{{name}}</option>
+                            {{/applications}}
+                        </select>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="medium-6 columns">
+                        <label class="inline">Comment</label>
+                    </div>
+
+                    <div class="medium-6 columns">
+                        <input type="text" name="comment">
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="medium-6 columns">
+                        <label class="inline">Expire in X days</label>
+                    </div>
+
+                    <div class="medium-6 columns">
+                        <input type="number" min="1" max="30000" name="days">
+                    </div>
+                </div>
+
+                <hr>
+
+                <div class="row">
+                    <div class="small-12 columns">
+                        <a class="button small mar-0-bottom secondary" href="/tokens">
+                            Cancel
+                        </a>
+
+                        <button type="submit" class="small right mar-0-bottom">
+                            Confirm
+                        </button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

@@ -1,6 +1,8 @@
 "use strict";
 
-var TokensController;
+var TokensController,
+    Util,
+    db;
 
 /**
  * Tokens controller
@@ -10,6 +12,9 @@ var TokensController;
  */
 TokensController = function (app) {
     this.app = app;
+
+    Util = require('../Util');
+    db = require('../Models');
 };
 
 /**
@@ -20,7 +25,16 @@ TokensController = function (app) {
  * @param next
  */
 TokensController.prototype.getIndex = function (req, res, next) {
-    return res.render('tokens/index');
+    db.ApplicationToken
+        .findAll()
+        .success(function (tokens) {
+            res.locals.tokens = tokens;
+            res.render('tokens/index');
+        })
+        .error(function (err) {
+            req.flash('errorMessages', ['Unable to get tokens']);
+            res.redirect('/');
+        });
 };
 
 /**
@@ -31,7 +45,22 @@ TokensController.prototype.getIndex = function (req, res, next) {
  * @param next
  */
 TokensController.prototype.getNew = function (req, res, next) {
-    return res.render('tokens/new');
+    db.Application
+        .findAll()
+        .success(function (applications) {
+            if (applications.length < 1) {
+                req.flash('errorMessages', ['There must be at least one application defined before creating a token']);
+                res.redirect('/');
+                return;
+            }
+
+            res.locals.applications = applications;
+            res.render('tokens/new');
+        })
+        .error(function (err) {
+            req.flash('errorMessages', ['There must be at least one application defined before creating a token']);
+            res.redirect('/');
+        });
 };
 
 /**
