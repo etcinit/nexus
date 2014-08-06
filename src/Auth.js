@@ -184,6 +184,7 @@ Auth.prototype.middleware = function (req, res, next) {
 
 Auth.prototype.protect = function (req, res, next) {
     if (req.user) {
+        res.locals.user = req.user.values;
         next();
         return;
     }

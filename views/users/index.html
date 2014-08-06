@@ -9,7 +9,7 @@
 <div class="row">
     <div class="medium-4 columns">
         <ul class="button-group">
-            <li><a class="button" href="/apps/new">Create new user</a></li>
+            <li><a class="button" href="/users/new">Create new user</a></li>
         </ul>
     </div>
 
@@ -23,12 +23,26 @@
             </thead>
 
             <tbody>
+            {{#users}}
             <tr>
                 <td>
-                    delta6
+                    {{username}}
                 </td>
-                <td>Edit&nbsp;Delete</td>
+                <td>
+                    {{#canEdit}}
+                    <a href="/users/{{id}}/edit">
+                        Edit
+                    </a>
+                    &nbsp;
+                    {{/canEdit}}
+                    {{#canDelete}}
+                    <a href="/users/{{id}}/delete">
+                        Delete
+                    </a>
+                    {{/canDelete}}
+                </td>
             </tr>
+            {{/users}}
             </tbody>
         </table>
     </div>

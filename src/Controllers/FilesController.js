@@ -135,7 +135,7 @@ FilesController.prototype.postEdit = function (req, res, next) {
             file.name = req.body.name;
             file.contents = req.body.contents;
 
-            // Validate application
+            // Validate file
             validationErrors = Util.errorsToArray(file.validate());
 
             // Show errors if validations failed
