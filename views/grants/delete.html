@@ -1,21 +1,33 @@
+<div class="secondary-bar">
+    <div class="row">
+        <div class="small-12 columns">
+            <h1>Revoke file access grant</h1>
+        </div>
+    </div>
+</div>
+
 <div class="row">
-    <div class="medium-4 medium-centered columns">
-        <h3>Revoke grant</h3>
+    <div class="medium-6 medium-centered columns">
+        <i class="fi-alert"></i>
+
+        <hr class="small">
+
+        <h5>
+            <b>Are you sure that you would like to revoke access to this file?</b>
+        </h5>
+
+        <p>This will revoke the grant on the file and "{{application.name}}" will not be able to access "{{file.name}}"</p>
 
         <div class="panel">
-            <p>Are you sure you would like to revoke grant on "{{file.name}}" ({{file.id}}) to {{application.name}} ({{application.id}})?</p>
-
-            <hr>
-
             <div class="row">
                 <div class="small-12 columns">
                     <form method="post" action="/grants/{{grant.id}}/delete">
-                        <a class="button small secondary mar-0-bottom" href="/grants">
+                        <a class="button small secondary mar-0-bottom" href="/apps/{{application.id}}/edit">
                             Cancel
                         </a>
 
                         <button type="submit" class="button small right mar-0-bottom alert">
-                            Delete
+                            Revoke
                         </button>
                     </form>
                 </div>

@@ -1,15 +1,35 @@
+<div class="secondary-bar">
+    <div class="row">
+        <div class="small-12 columns">
+            <h1>Revoke Application Token</h1>
+        </div>
+    </div>
+</div>
+
 <div class="row">
-    <div class="medium-4 medium-centered columns">
-        <h3>Revoke Token</h3>
+    <div class="medium-6 medium-centered columns">
+        <i class="fi-alert"></i>
+
+        <hr class="small">
+
+        <h5>
+            <b>Are you sure you that would like to revoke this token?</b>
+        </h5>
+
+        <p>
+            This will revoke access to configuration files for applications
+            using this token and cannot be undone
+        </p>
+
+        <p>
+            <small>
+                Token ID: {{token.id}}<br>
+                Token Key: {{token.token}}
+            </small>
+        </p>
+
 
         <div class="panel">
-            <p>
-                Are you sure you would like to revoke this token ({{token.id}})?
-                This will revoke access to the admin interface for this user
-            </p>
-
-            <hr>
-
             <div class="row">
                 <div class="small-12 columns">
                     <form method="post" action="/tokens/{{token.id}}/revoke">

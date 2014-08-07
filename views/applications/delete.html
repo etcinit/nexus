@@ -1,12 +1,29 @@
+<div class="secondary-bar">
+    <div class="row">
+        <div class="small-12 columns">
+            <h1>Delete Application</h1>
+        </div>
+    </div>
+</div>
+
 <div class="row">
-    <div class="medium-4 medium-centered columns">
-        <h3>Delete Application</h3>
+    <div class="medium-6 medium-centered columns">
+        <i class="fi-alert"></i>
+
+        <hr class="small">
+
+        <h5><b>Are you sure you that would like to delete this application?</b></h5>
+
+        <p>This will revoke access to applications using related tokens and remove any access grants</p>
+
+        <p>
+            <small>
+                Application ID: {{application.id}}<br>
+                Application Name: {{application.name}}
+            </small>
+        </p>
 
         <div class="panel">
-            <p>Are you sure you would like to delete "{{application.name}}" ({{application.id}})?</p>
-
-            <hr>
-
             <div class="row">
                 <div class="small-12 columns">
                     <form method="post" action="/apps/{{application.id}}/delete">
