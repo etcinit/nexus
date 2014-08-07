@@ -97,19 +97,49 @@ ApplicationsController.prototype.postNew = function (req, res, next) {
  * @param next
  */
 ApplicationsController.prototype.getEdit = function (req, res, next) {
+    var application,
+        availableFiles,
+        files;
+
     db.Application
         .find(Number(req.params.id))
-        .success(function (application) {
+        .then(function (existingApplication) {
+            application = existingApplication;
+
+            return db.sequelize.query('SELECT * FROM Files WHERE id NOT IN (SELECT `FileId` FROM Grants WHERE ApplicationId = :applicationId)', db.File, {}, { applicationId: application.id });
+        })
+        .then(function (configFiles) {
+            availableFiles = configFiles;
+
+            return db.File.findAll();
+        })
+        .then(function (configFiles) {
+            files = configFiles;
+
+            return application.getGrants();
+        })
+        .then(function (grants) {
             if (application === null) {
                 req.flash('errorMessages', ['Unable to find the specified application']);
                 res.redirect('/apps');
                 return;
             }
 
+            // Add filenames to grants for display
+            grants.forEach(function (grant) {
+                files.forEach(function (file) {
+                    if (grant.FileId === file.id) {
+                        grant.filename = file.name;
+                    }
+                });
+            });
+
+            res.locals.files = availableFiles;
+            res.locals.grants = grants;
             res.locals.application = application;
             res.render('applications/edit');
         })
-        .error(function (error) {
+        .catch(function (error) {
             req.flash('errorMessages', ['Unable to find the specified application']);
             res.redirect('/apps');
         });

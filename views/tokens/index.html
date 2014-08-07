@@ -7,13 +7,13 @@
 </div>
 
 <div class="row">
-    <div class="medium-4 columns">
+    <div class="small-12 columns">
         <ul class="button-group">
             <li><a class="button" href="/tokens/new">Create new token</a></li>
         </ul>
     </div>
 
-    <div class="medium-8 columns">
+    <div class="small-12 columns">
         {{^tokens}}
         <div class="text-center">
             There aren't any tokens created yet
@@ -34,10 +34,17 @@
             {{#tokens}}
             <tr>
                 <td>
-                    Test App
+                    {{applicationName}}
                 </td>
-                <td>XXXXXXXXXXXXXXXXXXXXXXXX</td>
-                <td>Edit&nbsp;Delete</td>
+                <td>
+                    {{token}}<br>
+                    <small>{{displayDate}}</small>
+                </td>
+                <td>
+                    {{#valid}}
+                    <a href="/tokens/{{id}}/revoke">Revoke</a>
+                    {{/valid}}
+                </td>
             </tr>
             {{/tokens}}
             </tbody>
