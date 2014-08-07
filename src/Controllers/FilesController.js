@@ -193,15 +193,25 @@ FilesController.prototype.getDelete = function (req, res, next) {
  * @param next
  */
 FilesController.prototype.postDelete = function (req, res, next) {
+    var file;
+
     db.File
         .find(Number(req.params.id))
-        .success(function (file) {
+        .then(function (existingFile) {
+            file = existingFile;
+
             if (file === null) {
                 req.flash('errorMessages', ['Unable to find the specified file']);
                 res.redirect('/files');
-                return;
+
+                throw new Error();
             }
 
+            return db.Grant.destroy({
+                FileId: file.id
+            });
+        })
+        .then(function () {
             file.destroy()
                 .success(function () {
                     req.flash('successMessages', ['Successfully deleted file']);
@@ -212,7 +222,7 @@ FilesController.prototype.postDelete = function (req, res, next) {
                     res.redirect('/files/' + Number(req.params.id) + '/delete');
                 });
         })
-        .error(function (error) {
+        .catch(function (error) {
             req.flash('errorMessages', ['Unable to find the specified file']);
             res.redirect('/files');
         });

@@ -228,15 +228,32 @@ ApplicationsController.prototype.getDelete = function (req, res, next) {
  * @param next
  */
 ApplicationsController.prototype.postDelete = function (req, res, next) {
+    var application;
+
     db.Application
         .find(Number(req.params.id))
-        .success(function (application) {
+        .then(function (existingApplication) {
+            application = existingApplication;
+
             if (application === null) {
                 req.flash('errorMessages', ['Unable to find the specified application']);
                 res.redirect('/apps');
-                return;
+
+                throw new Error();
             }
 
+            // Destroy all related grants
+            return db.Grant.destroy({
+                ApplicationId: application.id
+            });
+        })
+        .then(function () {
+            // Destroy all related tokens
+            return db.ApplicationToken.destroy({
+                ApplicationId: application.id
+            });
+        })
+        .then(function () {
             application.destroy()
                 .success(function () {
                     req.flash('successMessages', ['Successfully deleted application']);
@@ -247,7 +264,8 @@ ApplicationsController.prototype.postDelete = function (req, res, next) {
                     res.redirect('/apps/' + Number(req.params.id) + '/delete');
                 });
         })
-        .error(function (error) {
+        .catch(function (error) {
+            console.log(error);
             req.flash('errorMessages', ['Unable to find the specified application']);
             res.redirect('/apps');
         });

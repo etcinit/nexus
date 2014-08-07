@@ -1,12 +1,31 @@
+<div class="secondary-bar">
+    <div class="row">
+        <div class="small-12 columns">
+            <h1>Delete configuration file</h1>
+        </div>
+    </div>
+</div>
+
 <div class="row">
-    <div class="medium-4 medium-centered columns">
-        <h3>Delete File</h3>
+    <div class="medium-6 medium-centered columns">
+        <i class="fi-alert"></i>
+
+        <hr class="small">
+
+        <h5>
+            <b>Are you sure that you would like to delete this file?</b>
+        </h5>
+
+        <p>Applications will not be able to access this file and any grants associated will be removed</p>
+
+        <p>
+            <small>
+                File ID: {{file.id}}<br>
+                Filename: {{file.name}}
+            </small>
+        </p>
 
         <div class="panel">
-            <p>Are you sure you would like to delete "{{file.name}}" ({{file.id}})?</p>
-
-            <hr>
-
             <div class="row">
                 <div class="small-12 columns">
                     <form method="post" action="/files/{{file.id}}/delete">

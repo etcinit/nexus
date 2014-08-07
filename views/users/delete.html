@@ -1,15 +1,31 @@
+<div class="secondary-bar">
+    <div class="row">
+        <div class="small-12 columns">
+            <h1>Delete user</h1>
+        </div>
+    </div>
+</div>
+
 <div class="row">
-    <div class="medium-4 medium-centered columns">
-        <h3>Delete User</h3>
+    <div class="medium-6 medium-centered columns">
+        <i class="fi-alert"></i>
+
+        <hr class="small">
+
+        <h5>
+            <b>Are you sure that you would like to delete this user?</b>
+        </h5>
+
+        <p>This will revoke future access to the admin interface for this user</p>
+
+        <p>
+            <small>
+                User ID: {{user.id}}<br>
+                Username: {{user.username}}
+            </small>
+        </p>
 
         <div class="panel">
-            <p>
-                Are you sure you would like to delete "{{user.username}}" ({{user.id}})?
-                This will revoke access to the admin interface for this user
-            </p>
-
-            <hr>
-
             <div class="row">
                 <div class="small-12 columns">
                     <form method="post" action="/users/{{user.id}}/delete">
