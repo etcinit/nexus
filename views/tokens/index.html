@@ -9,12 +9,21 @@
 <div class="row">
     <div class="small-12 columns">
         <ul class="button-group">
-            <li><a class="button small" href="/tokens/new">Create new token</a></li>
+            <li><a class="button small" href="/tokens/new">
+                <i class="icon fi-plus"></i>
+                Create new token
+            </a></li>
             {{^expiredShown}}
-            <li><a class="button small" href="/tokens/?expired=true">Include revoked or expired</a></li>
+            <li><a class="button small" href="/tokens/?expired=true">
+                <i class="icon fi-eye"></i>
+                Include revoked or expired
+            </a></li>
             {{/expiredShown}}
             {{#expiredShown}}
-            <li><a class="button small" href="/tokens/">Exclude revoked or expired</a></li>
+            <li><a class="button small" href="/tokens/">
+                <i class="icon fi-eye"></i>
+                Exclude revoked or expired
+            </a></li>
             {{/expiredShown}}
         </ul>
     </div>
@@ -48,7 +57,7 @@
                 </td>
                 <td>
                     {{#valid}}
-                    <a href="/tokens/{{id}}/revoke">Revoke</a>
+                    <a href="/tokens/{{id}}/revoke" class="button tiny secondary mar-0-bottom">Revoke</a>
                     {{/valid}}
                 </td>
             </tr>

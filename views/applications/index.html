@@ -9,7 +9,10 @@
 <div class="row">
     <div class="medium-4 columns">
         <ul class="button-group">
-            <li><a class="button" href="/apps/new">Create new application</a></li>
+            <li><a class="button" href="/apps/new">
+                <i class="icon fi-plus"></i>
+                Create new application
+            </a></li>
         </ul>
     </div>
 
@@ -24,8 +27,7 @@
         <table class="expand">
             <thead>
             <tr>
-                <th>Name</th>
-                <th>Actions</th>
+                <th colspan="2">Name</th>
             </tr>
             </thead>
 
@@ -39,13 +41,19 @@
                     </h6>
                 </td>
                 <td>
-                    <a href="/apps/{{id}}/edit">
-                        Edit
-                    </a>
-                    &nbsp;
-                    <a href="/apps/{{id}}/delete">
-                        Delete
-                    </a>
+                    <ul class="button-group">
+                        <li>
+                            <a href="/apps/{{id}}/edit" class="button tiny mar-0-bottom">
+                                Edit
+                            </a>
+                        </li>
+
+                        <li>
+                            <a href="/apps/{{id}}/delete" class="button tiny secondary mar-0-bottom">
+                                Delete
+                            </a>
+                        </li>
+                    </ul>
                 </td>
             </tr>
             {{/applications}}
