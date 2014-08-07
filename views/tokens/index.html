@@ -10,7 +10,12 @@
     <div class="small-12 columns">
         <ul class="button-group">
             <li><a class="button small" href="/tokens/new">Create new token</a></li>
-            <li><a class="button small" href="/tokens/new">Include revoked or expired</a></li>
+            {{^expiredShown}}
+            <li><a class="button small" href="/tokens/?expired=true">Include revoked or expired</a></li>
+            {{/expiredShown}}
+            {{#expiredShown}}
+            <li><a class="button small" href="/tokens/">Exclude revoked or expired</a></li>
+            {{/expiredShown}}
         </ul>
     </div>
 

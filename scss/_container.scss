@@ -1,0 +1,46 @@
+.nexus-container {
+  position: absolute;
+  left: 0;
+  width: 100%;
+  min-height: 100%;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  flex-direction: column;
+
+  .nexus-header {
+    width: 100%;
+  }
+
+  .nexus-content {
+    width: 100%;
+
+    flex: 1;
+  }
+
+  .nexus-footer {
+    width: 100%;
+    height: 30px;
+
+    background-color: #444444;
+    color: #eeeeee;
+
+    .medium-6 {
+      position: relative;
+    }
+
+    .logo {
+      position: absolute;
+      right: 15px;
+      display: block;
+
+      width: 150px;
+      height: 30px;
+
+      background-image: url('../images/footerLogo.png');
+      background-size: 150px 30px;
+    }
+  }
+}

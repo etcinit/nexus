@@ -2,7 +2,8 @@
 
 var ApiController,
     Util,
-    db;
+    db,
+    moment;
 
 /**
  * Controller for the micro-API
@@ -15,6 +16,7 @@ ApiController =  function (app)
 
     db = require('../Models');
     Util = require('../Util');
+    moment = require('moment');
 };
 
 /**
@@ -71,6 +73,17 @@ ApiController.prototype.getFetch = function (req, res, next) {
             res.send({
                 status: 'error',
                 errorMessages: ['Invalid authorization key']
+            });
+
+            throw new Error();
+        }
+
+        // Check if the token has expired
+        if (moment(token.expiration_date).isBefore(moment())) {
+            // The key is invalid, show error
+            res.send({
+                status: 'error',
+                errorMessages: ['Expired authorization key']
             });
 
             throw new Error();

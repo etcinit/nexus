@@ -24,28 +24,32 @@
 }
 
 /** MARGIN **/
-@for $i from 0 through 10 {
-  .mar-#{$i * 10}-top {
+@for $i from 0 through 20 {
+  .mar-#{$i * 5}-top {
     margin-top: #{$i * 10}px;
   }
 }
 
-@for $i from 0 through 10 {
-  .mar-#{$i * 10}-left {
+@for $i from 0 through 20 {
+  .mar-#{$i * 5}-left {
     margin-left: #{$i * 10}px;
   }
 }
 
-@for $i from 0 through 10 {
-  .mar-#{$i * 10}-right {
+@for $i from 0 through 20 {
+  .mar-#{$i * 5}-right {
     margin-right: #{$i * 10}px;
   }
 }
 
-@for $i from 0 through 10 {
-  .mar-#{$i * 10}-bottom {
+@for $i from 0 through 20 {
+  .mar-#{$i * 5}-bottom {
     margin-bottom: #{$i * 10}px;
   }
+}
+
+.marginless {
+  margin: 0;
 }
 
 table.expand {

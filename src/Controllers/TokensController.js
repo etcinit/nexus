@@ -27,10 +27,28 @@ TokensController = function (app) {
  * @param next
  */
 TokensController.prototype.getIndex = function (req, res, next) {
-    var tokens;
+    var tokens,
+        queryOptions = {};
+
+    // Check whether we should show expired tokens
+    if (req.query.expired === 'true') {
+        queryOptions = {};
+
+        res.locals.expiredShown = true;
+    } else {
+        queryOptions = {
+            where: {
+                expiration_date: {
+                    gt: new Date()
+                }
+            }
+        };
+
+        res.locals.expiredShown = false;
+    }
 
     db.ApplicationToken
-        .findAll()
+        .findAll(queryOptions)
         .then(function (tokenList) {
             tokens = tokenList;
 

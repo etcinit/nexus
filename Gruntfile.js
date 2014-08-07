@@ -14,7 +14,7 @@ module.exports = function (grunt) {
 
         sass: {
             options: {
-                includePaths: ['public/components/foundation/scss']
+                includePaths: ['public/components/foundation/scss', 'public/components/foundation-icon-fonts']
             },
 
             dist: {

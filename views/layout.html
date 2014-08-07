@@ -9,49 +9,69 @@
 </head>
 <body>
 
-<div class="contain-to-grid">
-    <nav class="top-bar" data-topbar>
-        <ul class="title-area">
-            <li class="name">
-                <a href="/"><div class="top-bar-logo"></div></a>
-            </li>
-            <!-- Remove the class "menu-icon" to get rid of menu icon. Take out "Menu" to just have icon alone -->
-            <li class="toggle-topbar menu-icon"><a href="#"><span>Menu</span></a></li>
-        </ul>
+<div class="nexus-container">
+    <div class="nexus-header">
+        <div class="contain-to-grid">
+            <nav class="top-bar" data-topbar>
+                <ul class="title-area">
+                    <li class="name">
+                        <a href="/"><div class="top-bar-logo"></div></a>
+                    </li>
+                    <!-- Remove the class "menu-icon" to get rid of menu icon. Take out "Menu" to just have icon alone -->
+                    <li class="toggle-topbar menu-icon"><a href="#"><span>Menu</span></a></li>
+                </ul>
 
-        <section class="top-bar-section">
-            <!-- Right Nav Section -->
-            <ul class="right">
-                {{#loggedOut}}
-                <li><a href="/login">Login</a></li>
-                {{/loggedOut}}
-                {{#user}}
-                <li><a href="/logout">Logout</a></li>
-                {{/user}}
-            </ul>
+                <section class="top-bar-section">
+                    <!-- Right Nav Section -->
+                    <ul class="right">
+                        {{#loggedOut}}
+                        <li><a href="/login">Login</a></li>
+                        {{/loggedOut}}
+                        {{#user}}
+                        <li><a href="/logout">Logout</a></li>
+                        {{/user}}
+                    </ul>
 
-            <!-- Left Nav Section -->
-            {{#user}}
-            <ul class="left">
-                <li><a href="/apps">Applications</a></li>
-                <li><a href="/files">Files</a></li>
-                <li><a href="/tokens">Tokens</a></li>
-                <li><a href="/users">Users</a></li>
-            </ul>
-            {{/user}}
-        </section>
-    </nav>
-</div>
+                    <!-- Left Nav Section -->
+                    {{#user}}
+                    <ul class="left">
+                        <li><a href="/apps">Applications</a></li>
+                        <li><a href="/files">Files</a></li>
+                        <li><a href="/tokens">Tokens</a></li>
+                        <li><a href="/users">Users</a></li>
+                    </ul>
+                    {{/user}}
+                </section>
+            </nav>
+        </div>
+    </div>
 
-{{#errorMessages}}
-<div class="row">
-    <div class="small-12 columns pad-20-top">
-        <div class="alert-box alert">{{.}}</div>
+    <div class="nexus-content">
+        {{#errorMessages}}
+        <div class="secondary-bar mar-0-bottom">
+            <div class="row">
+                <div class="small-12 columns pad-20-top">
+                    <div class="alert-box alert">{{.}}</div>
+                </div>
+            </div>
+        </div>
+        {{/errorMessages}}
+
+        {{{ yield }}}
+    </div>
+
+    <div class="nexus-footer">
+        <div class="row">
+            <div class="medium-6 columns">
+                <small>Nexus Configuration Server v0.0.1 - Developed by Chromabits</small>
+            </div>
+
+            <div class="medium-6 columns text-right">
+                <a href="https://chromabits.com"><div class="logo"></div></a>
+            </div>
+        </div>
     </div>
 </div>
-{{/errorMessages}}
-
-{{{ yield }}}
 
 <script src="components/jquery/dist/jquery.min.js"></script>
 <script src="components/foundation/js/foundation.min.js"></script>
