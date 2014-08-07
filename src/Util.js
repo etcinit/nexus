@@ -58,4 +58,21 @@ Util.randomToken = function () {
     return result;
 };
 
+/**
+ * Checks if the subject string begins with prefix
+ *
+ * @param prefix
+ * @param subject
+ * @returns {boolean}
+ */
+Util.beginsWith = function (prefix, subject) {
+    if (subject.length < prefix.length) {
+        return false;
+    }
+
+    var subString = subject.substr(0, prefix.length);
+
+    return subString === prefix;
+};
+
 module.exports = Util;
