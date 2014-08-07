@@ -1,0 +1,145 @@
+@keyframes coreRotate {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(-360deg);
+  }
+}
+
+@keyframes ring1Fade {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 0.2;
+  }
+}
+
+@keyframes ring2Fade {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 0.15;
+  }
+}
+
+@keyframes ring3Fade {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 0.1;
+  }
+}
+
+.nexus-index {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+
+  z-index: -9;
+  background-color: #01638c;
+  background: linear-gradient(to bottom, #01638c 0%,#003358 100%);
+
+  .reactor {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+
+    z-index: -8;
+
+    .ring-1 {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+
+      background-position: center center;
+      background-repeat: no-repeat;
+      background-image: url('../images/coreWall.svg');
+      background-blend-mode: soft-light;
+
+      opacity: 0.2;
+
+      animation-name: coreRotate, ring1Fade;
+      animation-duration: 60s, 2s;
+      animation-iteration-count: infinite, 1;
+      animation-timing-function: linear, linear;
+    }
+
+    .ring-2 {
+      position: fixed;
+      top: -25%;
+      left: -25%;
+      width: 150%;
+      height: 150%;
+
+      background-position: center center;
+      background-repeat: no-repeat;
+      background-image: url('../images/coreWall2.svg');
+      background-size: contain;
+      background-blend-mode: soft-light;
+
+      opacity: 0.15;
+
+      //filter: blur(5px);
+
+      animation-name: coreRotate, ring2Fade;
+      animation-duration: 100s, 3s;
+      animation-iteration-count: infinite, 1;
+      animation-timing-function: linear, linear;
+    }
+
+    .ring-3 {
+      position: fixed;
+      top: -50%;
+      left: -50%;
+      width: 200%;
+      height: 200%;
+
+      background-position: center center;
+      background-repeat: no-repeat;
+      background-image: url('../images/coreWall3.svg');
+      background-size: contain;
+      background-blend-mode: soft-light;
+
+      opacity: 0.1;
+
+      //filter: blur(10px);
+
+      animation-name: coreRotate, ring3Fade;
+      animation-duration: 225s, 7s;
+      animation-iteration-count: infinite, 1;
+      animation-timing-function: linear, linear;
+    }
+  }
+}
+
+.nexus-index-content {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+
+  color: #FFFFFF;
+
+  h1 {
+    color: #FFFFFF;
+  }
+
+  .detail {
+    width: 64px;
+    height: 64px;
+  }
+}

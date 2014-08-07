@@ -1,0 +1,26 @@
+{
+  "name": "nexus",
+  "version": "0.0.1",
+  "homepage": "https://github.com/eduard44/nexus",
+  "authors": [
+    "Eduardo Trujillo <ed@chromabits.com>"
+  ],
+  "description": "Configuration server",
+  "main": "app.js",
+  "license": "GPL v2",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "public/components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "foundation": "~5.3.3",
+    "foundation-icon-fonts": "*",
+    "pixi.js": "~1.6.1",
+    "modernizer": "~2.8.2",
+    "modernizr": "~2.8.3"
+  }
+}

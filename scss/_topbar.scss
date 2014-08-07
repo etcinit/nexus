@@ -1,0 +1,12 @@
+.top-bar-logo {
+  width: 100px;
+  height: 45px;
+
+  background-image: url('../images/topBarLogo.png');
+  background-repeat: no-repeat;
+  background-size: 100px 45px;
+
+  &:hover {
+    background-color: #4cc9df;
+  }
+}
