@@ -1,6 +1,6 @@
 {
   "name": "confignexus",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "description": "Configuration server",
   "main": "app.js",
   "directories": {
@@ -19,6 +19,7 @@
     "hogan-express": "^0.5.2",
     "lodash": "^2.4.1",
     "moment": "^2.8.1",
+    "optimist": "^0.6.1",
     "passport": "^0.2.0",
     "passport-local": "^1.0.0",
     "q": "^1.0.1",

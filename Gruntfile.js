@@ -58,4 +58,5 @@ module.exports = function (grunt) {
     grunt.loadNpmTasks('grunt-autoprefixer');
 
     grunt.registerTask('default', ['sass', 'autoprefixer', 'concat', 'watch']);
+    grunt.registerTask('build', ['sass', 'autoprefixer', 'concat']);
 };

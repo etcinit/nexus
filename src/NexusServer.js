@@ -9,7 +9,8 @@ var NexusServer,
     hoganExpress = require('hogan-express'),
     flash = require('connect-flash'),
     db = require('./Models'),
-    q = require('q');
+    q = require('q'),
+    self;
 
 /**
  * Nexus server
@@ -18,6 +19,8 @@ var NexusServer,
  * @constructor
  */
 NexusServer = function (config) {
+    self = this;
+
     var app = this.app = express();
 
     // Keep reference to NexusServer
@@ -57,6 +60,9 @@ NexusServer = function (config) {
     app.set('layout', 'layout');
     //app.enable('view cache');
     app.engine('html', hoganExpress);
+
+    // Setup version info
+    app.use(self.versionMiddleware);
 
     // Setup app routes
     this.router = new Router(app);
@@ -109,6 +115,32 @@ NexusServer.prototype.connectToDb = function () {
         });
 
     return deferred.promise;
+};
+
+/**
+ * Get version information of this server
+ *
+ * @returns {{major: number, minor: number, revision: number}}
+ */
+NexusServer.prototype.getVersion = function () {
+    return {
+        major: 0,
+        minor: 1,
+        revision: 0
+    };
+};
+
+/**
+ * Middleware for injecting version information
+ *
+ * @param req
+ * @param res
+ * @param next
+ */
+NexusServer.prototype.versionMiddleware = function (req, res, next) {
+    res.locals.version = self.getVersion();
+
+    next();
 };
 
 module.exports = NexusServer;
