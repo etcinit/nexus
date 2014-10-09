@@ -49,11 +49,11 @@
             {{#tokens}}
             <tr>
                 <td>
-                    {{applicationName}}
+                    <a href="/apps/{{ApplicationId}}/edit">{{applicationName}}</a>
                 </td>
                 <td>
                     {{token}}<br>
-                    <small>{{displayDate}}</small>
+                    <small>{{displayDate}} - {{comment}}</small>
                 </td>
                 <td>
                     {{#valid}}
