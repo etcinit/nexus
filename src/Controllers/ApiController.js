@@ -99,12 +99,22 @@ ApiController.prototype.getFetch = function (req, res, next) {
         };
 
         // Fetch files
-        return db.sequelize.query('SELECT Files.* FROM Files LEFT JOIN Grants on Grants.FileId = Files.id', db.File);
-    }).then(function (files) {
+        return db.sequelize.query(
+            'SELECT Files.*, Grants.alias FROM Files LEFT JOIN Grants on Grants.FileId = Files.id ' +
+            'WHERE Grants.ApplicationId = :applicationId',
+            null,
+            { raw: true },
+            { applicationId: application.id }
+        );
+    }).then(function (tableRows) {
         responseObject.files = {};
 
-        files.forEach(function (file) {
-            responseObject.files[file.name] = file.contents;
+        tableRows.forEach(function (file) {
+            if (file.alias !== '') {
+                responseObject.files[file.alias] = file.contents;
+            } else {
+                responseObject.files[file.name] = file.contents;
+            }
         });
 
         res.send(responseObject);

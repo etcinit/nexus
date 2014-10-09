@@ -88,6 +88,12 @@
                         <button class="expand tiny">Grant</button>
                     </div>
                 </div>
+
+                <div class="row">
+                    <div class="medium-6 medium-push-3 columns">
+                        <input type="text" name="alias" placeholder="Filename alias">
+                    </div>
+                </div>
             </form>
             {{/files.length}}
         </div>
@@ -111,7 +117,7 @@
             {{#grants}}
             <tr>
                 <td>{{filename}}</td>
-                <td>N/A</td>
+                <td>{{alias}}</td>
                 <td>
                     <a href="/grants/{{id}}/delete">Revoke</a>
                 </td>

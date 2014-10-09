@@ -20,6 +20,9 @@ module.exports = function (sequelize, DataTypes) {
             FileId: {
                 type: DataTypes.INTEGER,
                 unique: 'grantUnique'
+            },
+            alias: {
+                type: DataTypes.STRING
             }
         }
     );

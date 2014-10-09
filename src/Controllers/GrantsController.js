@@ -82,7 +82,8 @@ GrantsController.prototype.postNew = function (req, res, next) {
         // Otherwise, create the grant
         var newGrant = db.Grant.build({
             ApplicationId: req.body.applicationId,
-            FileId: req.body.fileId
+            FileId: req.body.fileId,
+            alias: req.body.alias || ''
         });
 
         return newGrant.save();
