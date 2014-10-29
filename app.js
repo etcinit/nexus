@@ -1,7 +1,7 @@
 "use strict";
 
 var NexusServer = require('./src/NexusServer.js'),
-    config = require('./config/default.js'),
+    config = require('./src/Config.js'),
     server,
     argv = require('optimist').argv;
 

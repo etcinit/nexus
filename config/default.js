@@ -18,7 +18,11 @@ config = {
         reset: false,
         createUser: false
     },
-    sessionSecret: 'defaultSecret'
+    sessionSecret: 'defaultSecret',
+    https: {
+        enabled: false,
+        options: {}
+    }
 };
 
 module.exports = config;

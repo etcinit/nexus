@@ -1,9 +1,16 @@
 "use strict";
 
-var Config;
+var Config,
+    fs = require('fs'),
+    path = require('path');
 
-// Right now, we're just passing along the default config file
-// Eventually, this should dynamically load other config files
-Config = require('../config/default');
+// Load alternative config file instead of default one
+if (fs.existsSync(path.resolve(__dirname, '../config/main.js'))) {
+    console.log('Loaded alternate config file');
+    Config = require('../config/main');
+} else {
+    // Load default configuration
+    Config = require('../config/default');
+}
 
 module.exports = Config;

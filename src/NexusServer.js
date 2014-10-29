@@ -10,6 +10,7 @@ var NexusServer,
     flash = require('connect-flash'),
     db = require('./Models'),
     q = require('q'),
+    https = require('https'),
     self;
 
 /**
@@ -81,10 +82,17 @@ NexusServer.prototype.listen = function () {
     this
         .connectToDb()
         .then(function () {
-            server = app.listen(config.port || 3000, function () {
-                console.log('Listening on port %d', server.address().port);
-            });
+            if (config.https.enabled) {
+                server = https.createServer(config.https.options, app).listen(config.port || 3000, function () {
+                    console.log('Listening on port %d', server.address().port);
+                });
+            } else {
+                server = app.listen(config.port || 3000, function () {
+                    console.log('Listening on port %d', server.address().port);
+                });
+            }
         }, function (reason) {
+            console.log(reason);
             throw reason;
         });
 };
