@@ -25,6 +25,7 @@
     "passport-local": "^1.0.0",
     "q": "^1.0.1",
     "sequelize": "^1.7.9",
+    "sequelize-cli": "^0.3.3",
     "sqlite3": "^2.2.4"
   },
   "devDependencies": {},

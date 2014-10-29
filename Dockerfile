@@ -11,4 +11,6 @@ RUN npm install
 RUN bower install --allow-root --no-interactive
 RUN grunt build
 
+VOLUME ["/nexus/nexus.db"]
+
 CMD node app
