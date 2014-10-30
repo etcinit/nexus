@@ -13,4 +13,4 @@ RUN grunt build
 
 VOLUME ["/nexus/nexus.db"]
 
-CMD node app
+CMD supervisor app
