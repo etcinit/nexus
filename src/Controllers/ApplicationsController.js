@@ -3,6 +3,7 @@
 var ApplicationsController,
     self,
     db,
+    winston,
     Util;
 
 /**
@@ -15,6 +16,7 @@ ApplicationsController = function (app) {
     self = this;
     this.app = app;
     db = require('../Models');
+    winston = require('winston');
     Util = require('../Util');
 };
 
@@ -265,7 +267,7 @@ ApplicationsController.prototype.postDelete = function (req, res, next) {
                 });
         })
         .catch(function (error) {
-            console.log(error);
+            winston.error(error);
             req.flash('errorMessages', ['Unable to find the specified application']);
             res.redirect('/apps');
         });

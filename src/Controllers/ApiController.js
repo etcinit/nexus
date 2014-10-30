@@ -3,7 +3,8 @@
 var ApiController,
     Util,
     db,
-    moment;
+    moment,
+    winston;
 
 /**
  * Controller for the micro-API
@@ -17,6 +18,7 @@ ApiController =  function (app)
     db = require('../Models');
     Util = require('../Util');
     moment = require('moment');
+    winston = require('winston');
 };
 
 /**
@@ -119,7 +121,7 @@ ApiController.prototype.getFetch = function (req, res, next) {
 
         res.send(responseObject);
     }).catch(function (err) {
-        console.log(err);
+        winston.error(err);
     });
 };
 

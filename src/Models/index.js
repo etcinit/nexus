@@ -5,13 +5,29 @@ var fs = require('fs'),
     Sequelize = require('sequelize'),
     Config = require('../Config'),
     lodash = require('lodash'),
-    sequelize = new Sequelize(
-        Config.db.database,
-        Config.db.username,
-        Config.db.password,
-        Config.db.options
-    ),
+    winston = require('winston'),
+    sequelize,
+    sequelizeOptions,
     db = {};
+
+/**
+ * Setup options for sequelize
+ */
+sequelizeOptions = lodash.extend({
+    logging: winston.info
+}, Config.db.options);
+
+/**
+ * Initialize Sequelize instance
+ *
+ * @type {Sequelize}
+ */
+sequelize = new Sequelize(
+    Config.db.database,
+    Config.db.username,
+    Config.db.password,
+    sequelizeOptions
+);
 
 // Dynamically load models
 fs

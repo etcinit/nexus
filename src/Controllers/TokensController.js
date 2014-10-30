@@ -130,8 +130,6 @@ TokensController.prototype.postNew = function (req, res, next) {
                 newToken,
                 expirationDate;
 
-            console.log(applications);
-
             // Check there is at least one app
             if (applications.length < 1) {
                 validationErrors.push('There must be at least on application defined before creating a token');

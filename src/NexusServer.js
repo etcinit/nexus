@@ -11,6 +11,9 @@ var NexusServer,
     db = require('./Models'),
     q = require('q'),
     https = require('https'),
+    winston = require('winston'),
+    fs = require('fs'),
+    path = require('path'),
     self;
 
 /**
@@ -29,6 +32,9 @@ NexusServer = function (config) {
 
     // Keep reference to configuration file
     this.config = config;
+
+    // Setup logging
+    this.setupLog();
 
     // Setup body parser
 
@@ -84,15 +90,15 @@ NexusServer.prototype.listen = function () {
         .then(function () {
             if (config.https.enabled) {
                 server = https.createServer(config.https.options, app).listen(config.port || 3000, function () {
-                    console.log('Listening on port %d', server.address().port);
+                    winston.info('Listening on port %d', server.address().port);
                 });
             } else {
                 server = app.listen(config.port || 3000, function () {
-                    console.log('Listening on port %d', server.address().port);
+                    winston.info('Listening on port %d', server.address().port);
                 });
             }
         }, function (reason) {
-            console.log(reason);
+            winston.error(reason);
             throw reason;
         });
 };
@@ -134,7 +140,7 @@ NexusServer.prototype.getVersion = function () {
     return {
         major: 0,
         minor: 1,
-        revision: 0
+        revision: 1
     };
 };
 
@@ -149,6 +155,27 @@ NexusServer.prototype.versionMiddleware = function (req, res, next) {
     res.locals.version = self.getVersion();
 
     next();
+};
+
+/**
+ * Setup logging
+ */
+NexusServer.prototype.setupLog = function () {
+    var logDir = path.resolve('./logs'),
+        logFile = path.resolve(logDir, 'nexus.log'),
+        version = self.getVersion();
+
+    if (!fs.existsSync(logDir)) {
+        fs.mkdir(logDir);
+    }
+
+    winston.add(winston.transports.File, { filename: logFile });
+    //winston.remove(winston.transports.Console);
+
+    winston.info([
+        'Nexus Configuration Server v',
+        version.major, '.', version.minor, '.', version.revision
+    ].join(''));
 };
 
 module.exports = NexusServer;
