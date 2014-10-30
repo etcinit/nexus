@@ -85,6 +85,11 @@ Auth.prototype.getStrategy = function () {
                 }
             })
             .success(function (user) {
+                if (user === null) {
+                    done(null, false, {message: 'Invalid username/password combination'});
+                    return;
+                }
+
                 Auth
                     .compare(password, user.password)
                     .then(function (result) {
