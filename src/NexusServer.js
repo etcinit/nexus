@@ -140,7 +140,7 @@ NexusServer.prototype.getVersion = function () {
     return {
         major: 0,
         minor: 1,
-        revision: 1
+        revision: 2
     };
 };
 
