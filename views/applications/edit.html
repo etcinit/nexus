@@ -128,3 +128,34 @@
         {{/grants.length}}
     </div>
 </div>
+
+<div class="row">
+    <div class="small-12 columns">
+        <h5><small>SERVER INSTANCES</small></h5>
+
+        <table class="expand">
+        <thead>
+            <tr>
+                <th>Instance Name</th>
+                <th>Latest message</th>
+                <th>Last seen</th>
+            </tr>
+        </thead>
+        <tbody>
+        {{^instancePings}}
+        <tr>
+            <td colspan="3" class="text-center">No instances have recently reported running this application</td>
+        </tr>
+        {{/instancePings}}
+
+        {{#instancePings}}
+            <tr>
+                <td>{{instanceName}}</td>
+                <td>{{message}}</td>
+                <td>{{lastSeen}}</td>
+            </tr>
+        {{/instancePings}}
+        </tbody>
+        </table>
+    </div>
+</div>

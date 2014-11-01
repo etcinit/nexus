@@ -4,7 +4,8 @@ var ApplicationsController,
     self,
     db,
     winston,
-    Util;
+    Util,
+    moment;
 
 /**
  * Applications controller
@@ -18,6 +19,7 @@ ApplicationsController = function (app) {
     db = require('../Models');
     winston = require('winston');
     Util = require('../Util');
+    moment = require('moment');
 };
 
 /**
@@ -101,7 +103,11 @@ ApplicationsController.prototype.postNew = function (req, res, next) {
 ApplicationsController.prototype.getEdit = function (req, res, next) {
     var application,
         availableFiles,
-        files;
+        files,
+        grants,
+        fiveAgo;
+
+    fiveAgo = moment().subtract(5, 'minutes').toDate();
 
     db.Application
         .find(Number(req.params.id))
@@ -120,7 +126,19 @@ ApplicationsController.prototype.getEdit = function (req, res, next) {
 
             return application.getGrants();
         })
-        .then(function (grants) {
+        .then(function (result) {
+            grants = result;
+
+            return db.InstancePing.findAll({
+                where: {
+                    ApplicationId: application.id,
+                    updatedAt: {
+                        gt: fiveAgo
+                    }
+                }
+            });
+        })
+        .then(function (instancePings) {
             if (application === null) {
                 req.flash('errorMessages', ['Unable to find the specified application']);
                 res.redirect('/apps');
@@ -136,14 +154,22 @@ ApplicationsController.prototype.getEdit = function (req, res, next) {
                 });
             });
 
+            // Make instance times prettier
+            instancePings.forEach(function (ping) {
+                ping.lastSeen = moment(ping.updatedAt).fromNow()
+            });
+
             res.locals.files = availableFiles;
             res.locals.grants = grants;
             res.locals.application = application;
+            res.locals.instancePings = instancePings;
             res.render('applications/edit');
         })
         .catch(function (error) {
             req.flash('errorMessages', ['Unable to find the specified application']);
             res.redirect('/apps');
+
+            winston.error(error);
         });
 };
 

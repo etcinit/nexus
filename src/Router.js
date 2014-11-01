@@ -57,6 +57,9 @@ Router.prototype.init = function ()
     app.route('/v1/fetch')
         .get(apiInstance.getFetch);
 
+    app.route('/v1/ping')
+        .post(apiInstance.postPing);
+
     // Setup ApplicationsController routes
     applicationsInstance = new ApplicationsController(app);
 
