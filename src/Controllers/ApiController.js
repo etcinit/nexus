@@ -110,6 +110,7 @@ ApiController.prototype.getFetch = function (req, res, next) {
     authMiddleware(req, res)
         .then(function (application) {
             responseObject.application = {
+                id: application.id,
                 name: application.name,
                 description: application.description
             };
