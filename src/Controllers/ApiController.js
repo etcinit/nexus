@@ -134,6 +134,8 @@ ApiController.prototype.getFetch = function (req, res, next) {
                 }
             });
 
+            responseObject.status = 'success';
+
             res.send(responseObject);
         }).catch(function (err) {
             winston.error(err);
