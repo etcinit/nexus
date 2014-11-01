@@ -10,6 +10,7 @@
     "bcrypt": "^0.7.8",
     "body-parser": "^1.5.0",
     "connect-flash": "^0.1.1",
+    "ensure.js": "^0.4.2",
     "express": "^4.6.1",
     "express-session": "^1.7.0",
     "grunt": "^0.4.5",
