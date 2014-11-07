@@ -18,7 +18,7 @@ config = {
         reset: false,
         createUser: false
     },
-    sessionSecret: 'defaultSecret',
+    sessionSecret: process.env.SESSION_SECRET || 'defaultSecret',
     https: {
         enabled: false,
         options: {}
@@ -26,7 +26,7 @@ config = {
 };
 
 if (process.env.DB_HOST) {
-    config.db.host = process.env.DB_HOST;
+    config.db.options.host = process.env.DB_HOST;
 }
 
 module.exports = config;
