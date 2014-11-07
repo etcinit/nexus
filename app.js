@@ -18,12 +18,12 @@ if (argv.rebuild) {
 }
 
 // Check if we need to setup the initial user
-if (argv.setup) {
+if (argv.setup || process.env.SETUP === 'true') {
     config.db.createUser = true;
 }
 
 // Check if we are running migrations
-if (argv.migrate) {
+if (argv.migrate || process.env.MIGRATE === 'true') {
     winston.warn('Running migrations...');
 
     migrator = new Migrator();
