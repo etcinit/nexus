@@ -1,6 +1,8 @@
 "use strict";
 
-var config;
+var config,
+
+    path = require('path');
 
 /**
  * Default configuration file
@@ -22,6 +24,10 @@ config = {
     https: {
         enabled: false,
         options: {}
+    },
+    appLogs: {
+        dir: path.resolve(__dirname, '/logs'),
+        daily: true
     }
 };
 
