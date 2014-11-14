@@ -173,11 +173,6 @@ ApiController.prototype.postPing = function (req, res, next) {
             new legit.RequiredRule(),
             new legit.TypeRule(String),
             new legit.MinMaxLengthRule(1, 255)
-        ],
-
-        applicationId: [
-            new legit.RequiredRule(),
-            new legit.TypeRule(Number)
         ]
     });
 
@@ -191,7 +186,7 @@ ApiController.prototype.postPing = function (req, res, next) {
             return db.InstancePing.find({
                 where: {
                     instanceName: req.body.name,
-                    ApplicationId: Number(req.body.applicationId)
+                    ApplicationId: application.id
                 }
             })
                 .then(function (foundInstance) {
@@ -285,7 +280,7 @@ ApiController.prototype.postLogs = function (req, res, next) {
             // Validate request
             logsValidator.validate(req.body);
 
-            loggerInstance.log(
+            return loggerInstance.log(
                 String(application.id),
                 req.body.instanceName,
                 req.body.filename,

@@ -26,7 +26,7 @@ config = {
         options: {}
     },
     appLogs: {
-        dir: path.resolve(__dirname, '/logs'),
+        dir: path.resolve(__dirname, '../logs'),
         daily: true
     }
 };
