@@ -27,6 +27,14 @@ Logger = function (config) {
     this.appLogsDaily = ensure.one(this.config.appLogs.daily, true);
 };
 
+/**
+ * Log
+ *
+ * @param applicationId
+ * @param instanceId
+ * @param filename
+ * @param lines
+ */
 Logger.prototype.log = shield(
     [String, String, String, Array],
     Object,
@@ -52,6 +60,11 @@ Logger.prototype.log = shield(
     }
 );
 
+/**
+ * Check if logs for a certain application exist
+ *
+ * @param applicationId
+ */
 Logger.prototype.has = shield([String], Object, function (applicationId) {
     var deferred,
         appDir;
@@ -67,6 +80,11 @@ Logger.prototype.has = shield([String], Object, function (applicationId) {
     return deferred.promise;
 });
 
+/**
+ * Get list of instances
+ *
+ * @param applicationId
+ */
 Logger.prototype.getInstances = shield([String], Object, function (applicationId) {
     var promise,
         appDir;
@@ -105,6 +123,12 @@ Logger.prototype.getInstances = shield([String], Object, function (applicationId
     return promise;
 });
 
+/**
+ * Get filenames for an instance
+ *
+ * @param applicationId
+ * @param instanceName
+ */
 Logger.prototype.getFilenames = shield([String, String], Object, function (applicationId, instanceName) {
     var promise,
         instanceDir;
@@ -142,5 +166,44 @@ Logger.prototype.getFilenames = shield([String, String], Object, function (appli
 
     return promise;
 });
+
+/**
+ * Get a specific log file
+ *
+ * @param applicationId
+ * @param instanceName
+ * @param filename
+ */
+Logger.prototype.get = shield(
+    [String, String, String],
+    Object,
+    function (applicationId, instanceName, filename) {
+        var deferred,
+            promise,
+            filePath;
+
+        filePath = path.resolve(this.appLogsDir, ['app', applicationId].join(''), instanceName, filename);
+
+        deferred = Q.defer();
+
+        fs.exists(filePath, function (exists) {
+            deferred.resolve(exists);
+        });
+
+        promise = deferred.promise
+            .then(function (exists) {
+                if (!exists) {
+                    throw new Error('Log does not exist');
+                }
+
+                return Q.nfcall(fs.readFile, filePath, 'utf8');
+            })
+            .then(function (fileContents) {
+                return fileContents;
+            });
+
+        return promise;
+    }
+);
 
 module.exports = Logger;

@@ -189,4 +189,27 @@ describe('Logger', function () {
                 .catch(done);
         });
     });
+
+    describe('#get', function () {
+        it('should get the specified log', function (done) {
+            var instance = new Logger(testConfig),
+                logPromise;
+
+            logPromise = instance.log('01', 'instance-abcdef01', 'laravel.log', ['log line']);
+
+            ensure.hasFunction(logPromise, 'then').should.be.true;
+
+            logPromise.then(function () {
+                var logFile = path.resolve(testConfig.appLogs.dir, 'app01/instance-abcdef01/laravel.log');
+
+                return instance.get('01', 'instance-abcdef01', 'laravel.log');
+            })
+                .then(function (result) {
+                    result.should.be.equal("log line\n");
+
+                    done();
+                })
+                .catch(done);
+        });
+    });
 });
