@@ -52,4 +52,57 @@ Logger.prototype.log = shield(
     }
 );
 
+Logger.prototype.has = shield([String], Object, function (applicationId) {
+    var deferred,
+        appDir;
+
+    appDir = path.resolve(this.appLogsDir, ['app', applicationId].join(''));
+
+    deferred = Q.defer();
+
+    fs.exists(appDir, function (exists) {
+        deferred.resolve(exists);
+    });
+
+    return deferred.promise;
+});
+
+Logger.prototype.getInstances = shield([String], Object, function (applicationId) {
+    var promise,
+        appDir;
+
+    appDir = path.resolve(this.appLogsDir, ['app', applicationId].join(''));
+
+    promise = Q.nfcall(fs.readdir, appDir)
+        .then(function (files) {
+            var instances = [],
+                instanceChecks = [];
+
+            files.forEach(function (file) {
+                var deferred = Q.defer();
+
+                instanceChecks.push(deferred.promise);
+
+                fs.stat(path.resolve(appDir, file), function (err, stat) {
+                    if (err) {
+                        deferred.reject(err);
+                    }
+
+                    if (stat.isDirectory() && file !== '.' && file !== '..') {
+                        instances.push(file);
+                    }
+
+                    deferred.resolve();
+                });
+            });
+
+            return Q.all(instanceChecks)
+                .then(function () {
+                    return instances;
+                });
+        });
+
+    return promise;
+});
+
 module.exports = Logger;
