@@ -60,6 +60,9 @@ Router.prototype.init = function ()
     app.route('/v1/ping')
         .post(apiInstance.postPing);
 
+    app.route('/v1/logs')
+        .post(apiInstance.postLogs);
+
     // Setup ApplicationsController routes
     applicationsInstance = new ApplicationsController(app);
 

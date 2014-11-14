@@ -33,6 +33,7 @@
     "q-io": "^1.11.5",
     "sequelize": "^1.7.9",
     "sequelize-cli": "^0.3.3",
+    "sinon": "^1.11.1",
     "sqlite3": "^2.2.4",
     "validator": "^3.22.1",
     "winston": "^0.8.1"

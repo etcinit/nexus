@@ -36,7 +36,7 @@ Logger.prototype.log = shield(
             promise;
 
         // Check that the application directory exists
-        appDir = path.resolve(this.appLogsDir, 'app' + applicationId);
+        appDir = path.resolve(this.appLogsDir, ['app', applicationId].join(''));
         instanceDir = path.resolve(appDir, instanceId);
 
         promise = Q.nfcall(mkdirp, instanceDir);

@@ -139,9 +139,9 @@ Auth.prototype.deserializeUser = function (id, done) {
  * Create a simple default user for initial setup
  */
 Auth.prototype.createDefaultUser = function () {
-    Auth.hash('toor')
+    return Auth.hash('toor')
         .then(function (hash) {
-            db.User
+            return db.User
                 .create({
                     username: 'root',
                     password: hash

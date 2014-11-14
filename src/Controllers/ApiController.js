@@ -1,12 +1,16 @@
 "use strict";
 
 var ApiController,
+
     Util,
+    Logger,
     db,
     moment,
     winston,
     q,
-    legit;
+    legit,
+
+    loggerInstance;
 
 /**
  * Controller for the micro-API
@@ -22,6 +26,9 @@ ApiController = function (app) {
     winston = require('winston');
     q = require('q');
     legit = require('legit.js');
+    Logger = require('../Logging/Logger');
+
+    loggerInstance = new Logger(app.NexusServer.config);
 };
 
 /**
@@ -220,6 +227,75 @@ ApiController.prototype.postPing = function (req, res, next) {
                 })
                 .catch(function (error) {
                     throw error;
+                });
+        }).catch(function (error) {
+            if (error instanceof legit.ValidationError) {
+                res.status(401).send({
+                    status: 'error',
+                    errorMessages: ['Input validation failed'],
+                    validationErrors: error.getMessages()
+                });
+
+                return;
+            }
+
+            winston.error(error);
+
+            res.status(500).send({
+                status: 'error',
+                errorMessages: ['Internal server error']
+            });
+        });
+};
+
+/**
+ * POST /v1/logs
+ * Handles publishing logs from instances into Nexus
+ *
+ * @param req
+ * @param res
+ * @param next
+ */
+ApiController.prototype.postLogs = function (req, res, next) {
+    var responseObject = {},
+        logsValidator;
+
+    // Create a validator for this request
+    logsValidator = new legit.Validator({
+        filename: [
+            new legit.RequiredRule(),
+            new legit.TypeRule(String),
+            new legit.MinMaxLengthRule(1, 100)
+        ],
+
+        instanceName: [
+            new legit.RequiredRule(),
+            new legit.TypeRule(String),
+            new legit.MinMaxLengthRule(1, 100)
+        ],
+
+        lines: [
+            new legit.RequiredRule(),
+            new legit.TypeRule(Array)
+        ]
+    });
+
+    authMiddleware(req, res)
+        .then(function (application) {
+            // Validate request
+            logsValidator.validate(req.body);
+
+            loggerInstance.log(
+                String(application.id),
+                req.body.instanceName,
+                req.body.filename,
+                req.body.lines
+            )
+                .then(function () {
+                    // Tell the client that everything went fine
+                    res.send({
+                        status: 'success'
+                    });
                 });
         }).catch(function (error) {
             if (error instanceof legit.ValidationError) {

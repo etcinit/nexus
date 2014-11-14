@@ -6,7 +6,10 @@ var Config,
     winston = require('winston');
 
 // Load alternative config file instead of default one
-if (fs.existsSync(path.resolve(__dirname, '../config/main.js'))) {
+if (process.env.NODE_ENV === 'testing') {
+    // Load default testing configuration
+    Config = require('../config/testing');
+} else if (fs.existsSync(path.resolve(__dirname, '../config/main.js'))) {
     winston.info('Loaded alternate config file');
     Config = require('../config/main');
 } else {
