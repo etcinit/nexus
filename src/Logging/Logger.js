@@ -105,4 +105,42 @@ Logger.prototype.getInstances = shield([String], Object, function (applicationId
     return promise;
 });
 
+Logger.prototype.getFilenames = shield([String, String], Object, function (applicationId, instanceName) {
+    var promise,
+        instanceDir;
+
+    instanceDir = path.resolve(this.appLogsDir, ['app', applicationId].join(''), instanceName);
+
+    promise = Q.nfcall(fs.readdir, instanceDir)
+        .then(function (files) {
+            var filenames = [],
+                filenameChecks = [];
+
+            files.forEach(function (file) {
+                var deferred = Q.defer();
+
+                filenameChecks.push(deferred.promise);
+
+                fs.stat(path.resolve(instanceDir, file), function (err, stat) {
+                    if (err) {
+                        deferred.reject(err);
+                    }
+
+                    if (!stat.isDirectory() && file !== '.' && file !== '..') {
+                        filenames.push(file);
+                    }
+
+                    deferred.resolve();
+                });
+            });
+
+            return Q.all(filenameChecks)
+                .then(function () {
+                    return filenames;
+                });
+        });
+
+    return promise;
+});
+
 module.exports = Logger;

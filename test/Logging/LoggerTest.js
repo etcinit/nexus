@@ -161,4 +161,32 @@ describe('Logger', function () {
                 .catch(done);
         });
     });
+
+    describe('#getFilenames', function () {
+        it('should return a list of logs for an instance', function (done) {
+            var instance = new Logger(testConfig),
+                logPromise;
+
+            logPromise = instance.log('01', 'instance-abcdef01', 'app.log', ['log line']);
+
+            ensure.hasFunction(logPromise, 'then').should.be.true;
+
+            logPromise
+                .then(function () {
+                    return instance.log('01', 'instance-abcdef01', 'database.log', ['log line']);
+                })
+                .then(function () {
+                    return instance.getFilenames('01', 'instance-abcdef01');
+                })
+                .then(function (filenames) {
+                    ensure(filenames, Array);
+
+                    ensure.isIn('app.log', filenames).should.be.true;
+                    ensure.isIn('database.log', filenames).should.be.true;
+
+                    done();
+                })
+                .catch(done);
+        });
+    });
 });
