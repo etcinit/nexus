@@ -186,7 +186,7 @@
             {{#files}}
             <tr>
                 <td>{{instanceName}}</td>
-                <td>{{.}}</td>
+                <td><a href="/apps/{{application.id}}/instance/{{instanceName}}/logs/{{.}}">{{.}}</a></td>
             </tr>
             {{/files}}
             </tbody>

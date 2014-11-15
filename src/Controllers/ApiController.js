@@ -206,7 +206,7 @@ ApiController.prototype.postPing = function (req, res, next) {
                             .build({
                                 instanceName: req.body.name,
                                 message: req.body.message,
-                                ApplicationId: Number(req.body.applicationId)
+                                ApplicationId: application.id
                             })
                             .save()
                             .then(function () {

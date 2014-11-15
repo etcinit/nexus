@@ -1,0 +1,32 @@
+<div class="secondary-bar">
+    <div class="row">
+        <div class="small-6 columns">
+            <h1>
+                APPLICATION LOGS<br>
+                <small>FOR {{application.name}}</small>
+            </h1>
+        </div>
+
+        <div class="small-6 columns text-right">
+            <p class="pad-20-top"><a href="/apps/{{application.id}}/edit"><small>BACK &hookleftarrow;</small></a></p>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="medium-10 medium-centered columns">
+        <i class="fi-info"></i>
+
+        <hr class="small">
+
+        <h5><b>app.log</b></h5>
+
+        <div class="panel">
+            <div class="row">
+                <div class="small-12 columns">
+                    <pre>{{logContents}}</pre>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

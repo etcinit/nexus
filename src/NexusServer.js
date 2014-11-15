@@ -139,8 +139,8 @@ NexusServer.prototype.connectToDb = function () {
 NexusServer.prototype.getVersion = function () {
     return {
         major: 0,
-        minor: 2,
-        revision: 0
+        minor: 3,
+        revision: 1
     };
 };
 

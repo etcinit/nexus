@@ -311,4 +311,34 @@ ApplicationsController.prototype.postDelete = function (req, res, next) {
         });
 };
 
+/**
+ * Get log
+ *
+ * @param req
+ * @param res
+ * @param next
+ */
+ApplicationsController.prototype.getLog = function (req, res, next) {
+    db.Application
+        .find(Number(req.params.id))
+        .then(function (application) {
+            if (application === null) {
+                throw new Error();
+            }
+
+            res.locals.application = application;
+
+            return loggerInstance.get(String(application.id), req.params.instance, req.params.filename);
+        })
+        .then(function (logContents) {
+            res.locals.logContents = logContents;
+
+            res.render('applications/logview');
+        })
+        .catch(function (error) {
+            req.flash('errorMessages', ['Unable to find the specified application/log']);
+            res.redirect('/apps');
+        });
+};
+
 module.exports = ApplicationsController;
