@@ -159,3 +159,38 @@
         </table>
     </div>
 </div>
+
+<div class="row">
+    <div class="small-12 columns">
+        <h5><small>SERVER LOGS</small></h5>
+
+        {{^instanceLogs}}
+        <p>There are currently no logs for this application</p>
+        {{/instanceLogs}}
+
+        {{#instanceLogs}}
+        <table class="expand">
+            <thead>
+            <tr>
+                <th>Instance Name</th>
+                <th>Filename</th>
+            </tr>
+            </thead>
+            <tbody>
+            {{^files}}
+            <tr>
+                <td colspan="3" class="text-center">No instances have recently reported running this application</td>
+            </tr>
+            {{/files}}
+
+            {{#files}}
+            <tr>
+                <td>{{instanceName}}</td>
+                <td>{{.}}</td>
+            </tr>
+            {{/files}}
+            </tbody>
+        </table>
+        {{/instanceLogs}}
+    </div>
+</div>

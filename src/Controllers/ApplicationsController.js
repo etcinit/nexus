@@ -5,7 +5,8 @@ var ApplicationsController,
     db,
     winston,
     Util,
-    moment;
+    moment,
+    loggerInstance;
 
 /**
  * Applications controller
@@ -20,6 +21,7 @@ ApplicationsController = function (app) {
     winston = require('winston');
     Util = require('../Util');
     moment = require('moment');
+    loggerInstance = new (require('../Logging/Logger'))(app.NexusServer.config);
 };
 
 /**
@@ -105,7 +107,8 @@ ApplicationsController.prototype.getEdit = function (req, res, next) {
         availableFiles,
         files,
         grants,
-        fiveAgo;
+        fiveAgo,
+        instancePings;
 
     fiveAgo = moment().subtract(5, 'minutes').toDate();
 
@@ -138,7 +141,14 @@ ApplicationsController.prototype.getEdit = function (req, res, next) {
                 }
             });
         })
-        .then(function (instancePings) {
+        .then(function (result) {
+            instancePings = result;
+
+            // Get logs (if any)
+            return loggerInstance.all(String(application.id));
+        })
+        .then(function (instanceLogs) {
+            console.log(instanceLogs);
             if (application === null) {
                 req.flash('errorMessages', ['Unable to find the specified application']);
                 res.redirect('/apps');
@@ -156,13 +166,15 @@ ApplicationsController.prototype.getEdit = function (req, res, next) {
 
             // Make instance times prettier
             instancePings.forEach(function (ping) {
-                ping.lastSeen = moment(ping.updatedAt).fromNow()
+                ping.lastSeen = moment(ping.updatedAt).fromNow();
             });
 
             res.locals.files = availableFiles;
             res.locals.grants = grants;
             res.locals.application = application;
             res.locals.instancePings = instancePings;
+            res.locals.instanceLogs = instanceLogs;
+
             res.render('applications/edit');
         })
         .catch(function (error) {

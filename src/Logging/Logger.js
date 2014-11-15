@@ -206,4 +206,38 @@ Logger.prototype.get = shield(
     }
 );
 
+Logger.prototype.all = shield([String], Object, function (applicationId) {
+    var instanceLogs = [],
+        self = this;
+
+    return this.has(applicationId)
+        .then(function (hasLogs) {
+            if (!hasLogs) {
+                return instanceLogs;
+            }
+
+            return self.getInstances(applicationId)
+                .then(function (instances) {
+                    var filenameTasks = [];
+
+                    instances.forEach(function (instance) {
+                        filenameTasks.push(
+                            self.getFilenames(applicationId, instance)
+                                .then(function (filenames) {
+                                    instanceLogs.push({
+                                        instanceName: instance,
+                                        files: filenames
+                                    });
+                                })
+                        );
+                    });
+
+                    return Q.all(filenameTasks)
+                        .then(function () {
+                            return instanceLogs;
+                        });
+                });
+        });
+});
+
 module.exports = Logger;

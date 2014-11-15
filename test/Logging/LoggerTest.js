@@ -1,9 +1,14 @@
 "use strict";
 
 var Logger = require('../../src/Logging/Logger'),
+
+    TestingUtil = require('../../src/Testing/Util'),
+
     path = require('path'),
     fs = require('fs-extra'),
     ensure = require('ensure.js'),
+
+    testUtil,
     testConfig;
 
 testConfig = {
@@ -14,6 +19,10 @@ testConfig = {
 };
 
 describe('Logger', function () {
+    before(function () {
+        testUtil = new TestingUtil();
+    });
+
     // Delete tmp dir before each test
     afterEach(function (done) {
         fs.remove(testConfig.appLogs.dir, function () {
@@ -206,6 +215,34 @@ describe('Logger', function () {
             })
                 .then(function (result) {
                     result.should.be.equal("log line\n");
+
+                    done();
+                })
+                .catch(done);
+        });
+    });
+
+    describe('#all', function () {
+        it('should return an array', function (done) {
+            var instance = new Logger(testConfig),
+                logPromise;
+
+            logPromise = instance.log('01', 'instance-abcdef01', 'laravel.log', ['log line']);
+
+            ensure.hasFunction(logPromise, 'then').should.be.true;
+
+            logPromise.then(function () {
+                var logFile = path.resolve(testConfig.appLogs.dir, 'app01/instance-abcdef01/laravel.log');
+
+                return instance.get('01', 'instance-abcdef01', 'laravel.log');
+            })
+                .then(function () {
+                    return instance.all('01');
+                })
+                .then(function (result) {
+                    ensure(result, Array);
+
+                    result[0].files.should.be.Array;
 
                     done();
                 })
