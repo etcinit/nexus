@@ -331,6 +331,7 @@ ApplicationsController.prototype.getLog = function (req, res, next) {
             return loggerInstance.get(String(application.id), req.params.instance, req.params.filename);
         })
         .then(function (logContents) {
+            res.locals.logFilename = req.params.filename;
             res.locals.logContents = logContents;
 
             res.render('applications/logview');

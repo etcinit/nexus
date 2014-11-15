@@ -4,6 +4,7 @@ var ApiController,
 
     Util,
     Logger,
+    CleanFilenameRule,
     db,
     moment,
     winston,
@@ -27,6 +28,7 @@ ApiController = function (app) {
     q = require('q');
     legit = require('legit.js');
     Logger = require('../Logging/Logger');
+    CleanFilenameRule = require('../Validation/CleanFilenameRule');
 
     loggerInstance = new Logger(app.NexusServer.config);
 };
@@ -260,13 +262,15 @@ ApiController.prototype.postLogs = function (req, res, next) {
         filename: [
             new legit.RequiredRule(),
             new legit.TypeRule(String),
-            new legit.MinMaxLengthRule(1, 100)
+            new legit.MinMaxLengthRule(1, 100),
+            new CleanFilenameRule()
         ],
 
         instanceName: [
             new legit.RequiredRule(),
             new legit.TypeRule(String),
-            new legit.MinMaxLengthRule(1, 100)
+            new legit.MinMaxLengthRule(1, 100),
+            new CleanFilenameRule()
         ],
 
         lines: [
