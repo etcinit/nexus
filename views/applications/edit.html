@@ -116,7 +116,7 @@
             <tbody>
             {{#grants}}
             <tr>
-                <td>{{filename}}</td>
+                <td><a href="/files/{{FileId}}/edit">{{filename}}</a></td>
                 <td>{{alias}}</td>
                 <td>
                     <a href="/grants/{{id}}/delete">Revoke</a>
@@ -138,13 +138,14 @@
             <tr>
                 <th>Instance Name</th>
                 <th>Latest message</th>
+                <th>Active</th>
                 <th>Last seen</th>
             </tr>
         </thead>
         <tbody>
         {{^instancePings}}
         <tr>
-            <td colspan="3" class="text-center">No instances have recently reported running this application</td>
+            <td colspan="4" class="text-center">No instances have recently reported running this application</td>
         </tr>
         {{/instancePings}}
 
@@ -152,7 +153,23 @@
             <tr>
                 <td>{{instanceName}}</td>
                 <td>{{message}}</td>
-                <td>{{lastSeen}}</td>
+                <td>
+                    {{#online}}
+                    <div class="label success">
+                        <i class="icon fa fa-check-circle"></i>
+                        Active
+                    </div>
+                    {{/online}}
+                    {{^online}}
+                    <div class="label warning">
+                        <i class="icon fa fa-exclamation-circle"></i>
+                        Not responding
+                    </div>
+                    {{/online}}
+                </td>
+                <td>
+                    {{lastSeen}}
+                </td>
             </tr>
         {{/instancePings}}
         </tbody>

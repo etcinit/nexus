@@ -6,25 +6,16 @@
     </div>
 </div>
 
-<div class="row">
-    <div class="medium-6 medium-centered columns">
-        <div class="panel">
-            <form method="post" action="/files/new">
-                <div class="row">
-                    <div class="medium-6 columns">
-                        <label class="inline">Name</label>
-                    </div>
-
-                    <div class="medium-6 columns">
-                        <input type="text" name="name">
-                    </div>
-                </div>
+<form method="post" action="/files/new">
+    <div class="row">
+        <div class="medium-3 columns">
+            <div class="panel">
 
                 <div class="row">
                     <div class="small-12 columns">
                         <label>
-                            Contents
-                            <textarea name="contents" placeholder="File contents go here"></textarea>
+                            Name
+                            <input type="text" name="name" value="{{file.name}}">
                         </label>
                     </div>
                 </div>
@@ -33,16 +24,32 @@
 
                 <div class="row">
                     <div class="small-12 columns">
-                        <a class="button small mar-0-bottom secondary" href="/files">
-                            Cancel
+                        <a class="button small expand secondary" href="/files">
+                            <i class="icon fa fa-close"></i>
+                            Discard
                         </a>
+                    </div>
+                </div>
 
-                        <button type="submit" class="small right mar-0-bottom">
-                            Confirm
+                <div class="row">
+                    <div class="small-12 columns">
+                        <button type="submit" class="expand small mar-0-bottom">
+                            <i class="icon fa fa-save"></i>
+                            Create file
                         </button>
                     </div>
                 </div>
-            </form>
+            </div>
+        </div>
+
+        <div class="medium-9 columns">
+            <div class="row">
+                <div class="small-12 columns">
+                    <label>
+                        <textarea data-editor="{{editorMode}}" name="contents" placeholder="File contents go here">{{{file.contents}}}</textarea>
+                    </label>
+                </div>
+            </div>
         </div>
     </div>
-</div>
+</form>
