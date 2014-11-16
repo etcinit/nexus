@@ -32,13 +32,37 @@ ApplicationsController = function (app) {
  * @param next
  */
 ApplicationsController.prototype.getIndex = function (req, res, next) {
+    var applications,
+        fiveAgo = moment().subtract(5, 'minutes').toDate();
+
     db.Application
         .findAll()
-        .success(function (applications) {
+        .then(function (result) {
+            applications = result;
+
+            return db.InstancePing.findAll({
+                where: {
+                    updatedAt: {
+                        gt: fiveAgo
+                    }
+                }
+            });
+        })
+        .then(function (pings) {
+            applications.forEach(function (application) {
+                application.instanceCount = 0;
+
+                pings.forEach(function (ping) {
+                    if (ping.ApplicationId === application.id) {
+                        application.instanceCount += 1;
+                    }
+                });
+            });
+
             res.locals.applications = applications;
             res.render('applications/index');
         })
-        .error(function (error) {
+        .catch(function (error) {
             req.flash('errorMessages', ['Unable to retrieve applications']);
             res.render('applications/index');
         });

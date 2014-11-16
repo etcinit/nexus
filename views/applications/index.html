@@ -37,19 +37,30 @@
                 <td>
                     <h6>
                         {{name}}<br>
-                        <small>{{description}}</small>
+                        <small>
+                            {{description}}
+                            {{#instanceCount}}
+                            &nbsp;(
+                            <span class="success">
+                                {{instanceCount}} instances running
+                            </span>)
+
+                            {{/instanceCount}}
+                        </small>
                     </h6>
                 </td>
                 <td>
-                    <ul class="button-group">
+                    <ul class="button-group pull-right">
                         <li>
                             <a href="/apps/{{id}}/edit" class="button tiny mar-0-bottom">
+                                <i class="icon fa fa-edit"></i>
                                 Edit
                             </a>
                         </li>
 
                         <li>
                             <a href="/apps/{{id}}/delete" class="button tiny secondary mar-0-bottom">
+                                <i class="icon fa fa-trash"></i>
                                 Delete
                             </a>
                         </li>

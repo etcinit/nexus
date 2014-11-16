@@ -28,7 +28,15 @@
                         <li><a href="/login">Login</a></li>
                         {{/loggedOut}}
                         {{#user}}
-                        <li><a href="/logout">Logout</a></li>
+                        <li>
+                            <a href="/users/{{id}}/edit">
+                                {{username}}
+                            </a>
+                        </li>
+                        <li><a href="/logout">
+                            <i class="icon fa fa-sign-out"></i>
+                            Logout
+                        </a></li>
                         {{/user}}
                     </ul>
 
