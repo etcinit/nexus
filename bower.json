@@ -22,6 +22,8 @@
     "pixi.js": "~1.6.1",
     "modernizer": "~2.8.2",
     "modernizr": "~2.8.3",
-    "font-awesome": "~4.2.0"
+    "font-awesome": "~4.2.0",
+    "signals": "~1.0.0",
+    "crossroads": "~0.12.0"
   }
 }
