@@ -192,7 +192,7 @@ ApplicationsController.prototype.getEdit = function (req, res, next) {
             instancePings.forEach(function (ping) {
                 ping.lastSeen = moment(ping.updatedAt).fromNow();
 
-                ping.online = moment(ping.updatedAt).isAfter(moment().subtract(5, 'minutes'));
+                ping.online = moment(ping.updatedAt).isAfter(moment().subtract(2, 'minutes'));
             });
 
             res.locals.files = availableFiles;
