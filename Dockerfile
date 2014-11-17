@@ -1,4 +1,4 @@
-FROM eduard44/vertex
+FROM eduard44/vertex:1.0.0
 MAINTAINER Eduardo Trujillo <ed@chromabits.com>
 
 RUN apt-get install -y build-essential make
