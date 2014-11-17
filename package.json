@@ -1,12 +1,13 @@
 {
   "name": "confignexus",
-  "version": "0.4.1",
+  "version": "0.4.2",
   "description": "Configuration server",
   "main": "app.js",
   "directories": {
     "test": "tests"
   },
   "dependencies": {
+    "adm-zip": "^0.4.4",
     "async": "^0.9.0",
     "bcrypt": "^0.7.8",
     "body-parser": "^1.5.0",
@@ -34,6 +35,7 @@
     "sequelize": "^1.7.9",
     "sequelize-cli": "^0.3.3",
     "sinon": "^1.11.1",
+    "slice-file": "^0.2.1",
     "sqlite3": "^2.2.4",
     "validator": "^3.22.1",
     "winston": "^0.8.1"

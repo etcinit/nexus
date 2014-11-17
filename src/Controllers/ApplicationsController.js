@@ -6,6 +6,8 @@ var ApplicationsController,
     winston,
     Util,
     moment,
+    Q,
+    zip,
     loggerInstance;
 
 /**
@@ -21,6 +23,8 @@ ApplicationsController = function (app) {
     winston = require('winston');
     Util = require('../Util');
     moment = require('moment');
+    Q = require('q');
+    zip = require('adm-zip');
     loggerInstance = new (require('../Logging/Logger'))(app.NexusServer.config);
 };
 
@@ -354,6 +358,10 @@ ApplicationsController.prototype.getLog = function (req, res, next) {
 
             res.locals.application = application;
 
+            if (req.query.tail && req.query.tail > 0) {
+                return loggerInstance.get(String(application.id), req.params.instance, req.params.filename, req.query.tail);
+            }
+
             return loggerInstance.get(String(application.id), req.params.instance, req.params.filename);
         })
         .then(function (logContents) {
@@ -363,6 +371,70 @@ ApplicationsController.prototype.getLog = function (req, res, next) {
             res.render('applications/logview');
         })
         .catch(function (error) {
+            winston.error(error);
+
+            req.flash('errorMessages', ['Unable to find the specified application/log']);
+            res.redirect('/apps');
+        });
+};
+
+ApplicationsController.prototype.getInstanceLogs = function (req, res, next) {
+    var logsContents = [],
+        applicationId;
+
+    db.Application
+        .find(Number(req.params.id))
+        .then(function (application) {
+            if (application === null) {
+                throw new Error();
+            }
+
+            applicationId = String(application.id);
+
+            return loggerInstance.getFilenames(applicationId, req.params.instance);
+        })
+        .then(function (filenames) {
+            var tasks = [];
+
+            if (filenames) {
+                filenames.forEach(function (filename) {
+                    if (req.query.tail && req.query.tail > 0) {
+                        tasks.push(
+                            loggerInstance.get(applicationId, req.params.instance, filename, req.query.tail)
+                                .then(function (contents) {
+                                    logsContents.push({
+                                        filename: filename,
+                                        contents: contents
+                                    });
+                                })
+                        );
+                    }
+
+                    tasks.push(loggerInstance.get(applicationId, req.params.instance, filename)
+                        .then(function (contents) {
+                            logsContents.push({
+                                filename: filename,
+                                contents: contents
+                            });
+                        }));
+                });
+            }
+
+            return Q.all(tasks);
+        })
+        .then(function () {
+            var zipFile = new zip();
+
+            logsContents.forEach(function (logFile) {
+                zipFile.addFile(logFile.filename, new Buffer(logFile.contents), 'log file');
+            });
+
+            res.setHeader('Content-disposition', 'attachment; filename=' + req.params.instance + '.zip');
+            res.send(zipFile.toBuffer());
+        })
+        .catch(function (error) {
+            winston.error(error);
+
             req.flash('errorMessages', ['Unable to find the specified application/log']);
             res.redirect('/apps');
         });

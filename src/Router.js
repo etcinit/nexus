@@ -85,6 +85,10 @@ Router.prototype.init = function ()
         .get(applicationsInstance.getDelete)
         .post(applicationsInstance.postDelete);
 
+    app.route('/apps/:id/instance/:instance/logs')
+        .all(auth.protect)
+        .get(applicationsInstance.getInstanceLogs);
+
     app.route('/apps/:id/instance/:instance/logs/:filename')
         .all(auth.protect)
         .get(applicationsInstance.getLog);

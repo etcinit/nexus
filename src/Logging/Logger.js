@@ -6,6 +6,7 @@ var Logger,
     fs = require('fs'),
     Q = require('q'),
     mkdirp = require('mkdirp'),
+    sf = require('slice-file'),
 
     ensure = require('ensure.js'),
     shield = ensure.shield,
@@ -173,11 +174,12 @@ Logger.prototype.getFilenames = shield([String, String], Object, function (appli
  * @param applicationId
  * @param instanceName
  * @param filename
+ * @param tail
  */
 Logger.prototype.get = shield(
-    [String, String, String],
+    [String, String, String, Nullable(Number)],
     Object,
-    function (applicationId, instanceName, filename) {
+    function (applicationId, instanceName, filename, tail) {
         var deferred,
             promise,
             filePath;
@@ -192,8 +194,32 @@ Logger.prototype.get = shield(
 
         promise = deferred.promise
             .then(function (exists) {
+                var tailFile,
+                    tailDeferred;
+
                 if (!exists) {
                     throw new Error('Log does not exist');
+                }
+
+                if (tail) {
+                    tailFile = sf(filePath);
+
+                    console.log(tailFile);
+
+                    tailDeferred = Q.defer();
+
+                    tailFile.slice(-(tail), function (err, lines) {
+                        if (err) {
+                            tailDeferred.reject(err);
+                            return;
+                        }
+
+                        console.log('lines', lines);
+
+                        tailDeferred.resolve(lines.join(''));
+                    });
+
+                    return tailDeferred.promise;
                 }
 
                 return Q.nfcall(fs.readFile, filePath, 'utf8');

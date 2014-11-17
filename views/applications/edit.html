@@ -190,13 +190,19 @@
             <thead>
             <tr>
                 <th>Instance Name</th>
-                <th>Filename</th>
+                <th width="30%">
+                    Filename
+                    <a href="/apps/{{application.id}}/instance/{{instanceName}}/logs">
+                        (<i class="icon fa fa-download"></i>ZIP All)
+                    </a>
+                </th>
+                <th width="20%">Tail Log</th>
             </tr>
             </thead>
             <tbody>
             {{^files}}
             <tr>
-                <td colspan="3" class="text-center">No instances have recently reported running this application</td>
+                <td colspan="3" class="text-center">No log files for this instance</td>
             </tr>
             {{/files}}
 
@@ -204,6 +210,10 @@
             <tr>
                 <td>{{instanceName}}</td>
                 <td><a href="/apps/{{application.id}}/instance/{{instanceName}}/logs/{{.}}">{{.}}</a></td>
+                <td>
+                    <a href="/apps/{{application.id}}/instance/{{instanceName}}/logs/{{.}}?tail=50">50 lines</a> |
+                    <a href="/apps/{{application.id}}/instance/{{instanceName}}/logs/{{.}}?tail=100">100 lines</a>
+                </td>
             </tr>
             {{/files}}
             </tbody>
