@@ -37,6 +37,7 @@ Database configuration:
 - __DB_USERNAME__: Database username
 - __DB_PASSWORD__: Database password
 - __DB_HOST__: Database host
+- __DB_PORT__: Database port
 - __DB_DIALECT__: Database dialect (mysql or sqlite)
 
 Server configuration:

@@ -35,4 +35,8 @@ if (process.env.DB_HOST) {
     config.db.options.host = process.env.DB_HOST;
 }
 
+if (process.env.DB_PORT) {
+    config.db.options.port = process.env.DB_PORT;
+}
+
 module.exports = config;
