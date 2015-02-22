@@ -1,9 +1,10 @@
 "use strict";
 
-var Config,
-    fs = require('fs'),
+var fs = require('fs'),
     path = require('path'),
     winston = require('winston');
+
+var Config;
 
 // Load alternative config file instead of default one
 if (process.env.NODE_ENV === 'testing') {

@@ -3,7 +3,7 @@
 var Router,
 
     // Include other classes
-    Util = require('./Util'),
+    Util = use('Util'),
 
     // Include controllers
     ApiController = require('./Controllers/ApiController'),
@@ -24,9 +24,11 @@ var Router,
  * @param app
  * @constructor
  */
-Router = function (app)
+Router = function (ExpressApp, Auth, EnclosureContainer)
 {
-    this.app = app;
+    this.app = ExpressApp;
+    this.auth = Auth;
+    this.container = EnclosureContainer;
 };
 
 /**
@@ -35,7 +37,7 @@ Router = function (app)
 Router.prototype.init = function ()
 {
     var app = this.app,
-        auth = this.app.NexusServer.auth,
+        auth = this.auth,
         apiInstance,
         applicationsInstance,
         authInstance,

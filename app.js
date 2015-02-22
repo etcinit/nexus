@@ -1,57 +1,40 @@
 "use strict";
 
-var NexusServer = require('./src/NexusServer'),
-    Migrator = require('./src/Database/Migrator'),
-    config = require('./src/Config'),
+require('ensure.js');
+require("babel/register"); // Use ES6
 
-    argv = require('optimist').argv,
-    winston = require('winston'),
+var enclosure = require('enclosure'),
+    path = require('path');
 
-    server,
-    migrator;
+var Application = enclosure.Chromabits.Container.Application,
+    Loader = enclosure.Chromabits.Loader.Loader,
+    DirectoryMapper = enclosure.Chromabits.Mapper.DirectoryMapper,
+    EnclosureMap = enclosure.Chromabits.Mapper.EnclosureClassMap;
 
-// Check if we need to rebuild the database
-if (argv.rebuild) {
-    winston.warn('Rebuilding database. All information will be removed');
-    config.db.reset = true;
-    config.db.createUser = true;
-}
+// Setup class autoloading
+var loader = new Loader();
+var mapper = new DirectoryMapper(path.resolve(__dirname, './src/'));
 
-// Check if we need to setup the initial user
-if (argv.setup || process.env.SETUP === 'true') {
-    config.db.createUser = true;
-}
+loader.addMap(mapper.generate());
+loader.addMap(EnclosureMap);
 
-// Check if we are running migrations
-if (argv.migrate || process.env.MIGRATE === 'true') {
-    winston.warn('Running migrations...');
+// Start the service container
+var application = new Application();
+application.installTo(global);
 
-    migrator = new Migrator();
+container.setLoader(loader);
 
-    // Check if we are rolling back migrations
-    if (argv.rollback) {
-        migrator.down()
-            .success(function () {
-                winston.info('Successfully rolled back migrations!');
-            })
-            .error(function (error) {
-                winston.error('Error while rolling back migrations', error);
-            });
+// Register providers
+container.addProvider('Providers/ConfigServiceProvider');
+container.addProvider('Providers/PreludeServiceProvider');
+container.addProvider('Providers/ServerServiceProvider');
 
-        return;
-    }
+container.register();
+container.bootProviders();
 
-    migrator.up()
-        .success(function () {
-            winston.info('Successfully ran migrations!');
-        })
-        .error(function (error) {
-            winston.error('Error while running migrations', error);
-        });
-
-    return;
-}
+var prelude = container.make('Prelude');
 
 // Instantiate a new Nexus server and start listening
-server = new NexusServer(config);
-server.listen();
+if (prelude.shouldLoadServer()) {
+    container.make('NexusServer').listen();
+}

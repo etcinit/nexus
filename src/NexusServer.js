@@ -1,7 +1,6 @@
 "use strict";
 
-var NexusServer,
-    Router = require('./Router'),
+var Router = require('./Router'),
     Auth = require('./Auth'),
     express = require('express'),
     bodyParser = require('body-parser'),
@@ -13,7 +12,9 @@ var NexusServer,
     https = require('https'),
     winston = require('winston'),
     fs = require('fs'),
-    path = require('path'),
+    path = require('path');
+
+var NexusServer,
     self;
 
 /**
@@ -22,13 +23,16 @@ var NexusServer,
  * @param config
  * @constructor
  */
-NexusServer = function (config) {
+NexusServer = function (Config) {
     self = this;
+    var config = Config;
 
     var app = this.app = express();
+    container.instance('ExpressApp', app);
 
     // Keep reference to NexusServer
     app.NexusServer = this;
+    container.instance('NexusServer', this);
 
     // Keep reference to configuration file
     this.config = config;
@@ -61,6 +65,7 @@ NexusServer = function (config) {
     // Setup authentication
     this.auth = new Auth(app);
     this.auth.setupPassport();
+    container.instance('Auth', this.auth);
 
     // Setup view engine
     app.set('view engine', 'html');
@@ -72,7 +77,7 @@ NexusServer = function (config) {
     app.use(self.versionMiddleware);
 
     // Setup app routes
-    this.router = new Router(app);
+    this.router = container.make('Router');
     this.router.init();
 };
 

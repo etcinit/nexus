@@ -15,11 +15,12 @@ var ApiController,
 
 /**
  * Controller for the micro-API
- * @param app
+ *
+ * @param ExpressApp
  * @constructor
  */
-ApiController = function (app) {
-    this.app = app;
+ApiController = function (ExpressApp) {
+    this.app = ExpressApp;
 
     db = require('../Models');
     Util = require('../Util');
@@ -30,7 +31,7 @@ ApiController = function (app) {
     Logger = require('../Logging/Logger');
     CleanFilenameRule = require('../Validation/CleanFilenameRule');
 
-    loggerInstance = new Logger(app.NexusServer.config);
+    loggerInstance = new Logger(ExpressApp.NexusServer.config);
 };
 
 /**

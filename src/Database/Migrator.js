@@ -1,41 +1,47 @@
 "use strict";
 
-var Migrator,
-
-    fs = require('fs'),
+var fs = require('fs'),
     path = require('path'),
 
     db = require('../Models');
 
 /**
- * Create a new instance of a database migrator
+ * Class Migrator
  *
- * @constructor
+ * Runs migrations
  */
-Migrator = function () {
-    this.migrator = db.sequelize.getMigrator({
-        path: path.resolve(process.cwd(), 'migrations')
-    });
-};
+class Migrator
+{
+    /**
+     * Create a new instance of a Migrator
+     *
+     * @constructor
+     */
+    constructor() {
+        this.migrator = db.sequelize.getMigrator({
+            path: path.resolve(process.cwd(), 'migrations')
+        });
+    }
 
-/**
- * Run migrations
- *
- * @returns {*}
- */
-Migrator.prototype.up = function () {
-    return this.migrator.migrate();
-};
+    /**
+     * Run migrations
+     *
+     * @returns {*}
+     */
+    up() {
+        return this.migrator.migrate();
+    }
 
-/**
- * Rollback migrations
- *
- * @returns {*}
- */
-Migrator.prototype.down = function () {
-    return this.migrator.migrate({
-        method: 'down'
-    });
-};
+    /**
+     * Rollback migrations
+     *
+     * @returns {*}
+     */
+    down() {
+        return this.migrator.migrate({
+            method: 'down'
+        });
+    }
+}
 
 module.exports = Migrator;

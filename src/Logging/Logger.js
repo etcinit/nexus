@@ -8,7 +8,6 @@ var Logger,
     mkdirp = require('mkdirp'),
     sf = require('slice-file'),
 
-    ensure = require('ensure.js'),
     shield = ensure.shield,
     Nothing = ensure.Nothing,
     Nullable = ensure.Nullable;
