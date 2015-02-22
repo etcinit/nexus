@@ -1,36 +1,53 @@
 "use strict";
 
-var IndexController;
-
 /**
- * IndexController
+ * Class IndexController
  *
- * Manage main page of the application
- *
- * @constructor
+ * Handles core pages in the application
  */
-IndexController = function () {
+class IndexController
+{
+    /**
+     * Get the home page of the application
+     *
+     * @param req
+     * @param res
+     * @param next
+     * @returns {*}
+     */
+    getIndex(req, res, next) {
+        // Redirect to application list if logged in
+        if (req.user) {
+            res.redirect('/apps');
+            return;
+        }
 
-};
-
-IndexController.prototype.getIndex = function (req, res, next) {
-    // Redirect to application list if logged in
-    if (req.user) {
-        res.redirect('/apps');
-        return;
+        return res.render('index');
     }
 
-    return res.render('index');
-};
+    /**
+     * Get 404 page
+     *
+     * @param req
+     * @param res
+     * @param next
+     */
+    getNotFound(req, res, next) {
+        res.status(404);
 
-IndexController.prototype.getNotFound = function (req, res, next) {
-    res.status(404);
+        res.render('errors/notFound');
+    }
 
-    res.render('errors/notFound');
-};
-
-IndexController.prototype.getServerError = function (req, res, next) {
-    res.send(500, 'Error :(');
-};
+    /**
+     * Get 500 page
+     *
+     * @param req
+     * @param res
+     * @param next
+     */
+    getServerError(req, res, next) {
+        res.send(500, 'Error :(');
+    }
+}
 
 module.exports = IndexController;

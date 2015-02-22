@@ -1,22 +1,23 @@
 "use strict";
 
-var Logger,
+var Logger;
 
-    path = require('path'),
+var path = require('path'),
     fs = require('fs'),
     Q = require('q'),
     mkdirp = require('mkdirp'),
     sf = require('slice-file'),
+    ensure = require('ensure.js');
 
-    shield = ensure.shield,
+var shield = ensure.shield,
     Nothing = ensure.Nothing,
     Nullable = ensure.Nullable;
 
-Logger = function (config) {
+Logger = function (Config) {
     ensure.requireIsNewThis(Logger, this);
 
     // Keep a reference to the configuration
-    this.config = config;
+    this.config = Config;
 
     // Load config
     if (!ensure.has(this.config, 'appLogs')) {

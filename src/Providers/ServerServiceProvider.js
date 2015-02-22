@@ -12,9 +12,9 @@ var ServiceProvider = use('Chromabits/Container/ServiceProvider'),
 class ServerServiceProvider extends ServiceProvider
 {
     register(app) {
-        app.bind('NexusServer', NexusServer);
+        app.bind('NexusServer', NexusServer, true);
 
-        app.bind('Router', Router)
+        app.bind('Router', Router, true)
     }
 }
 
