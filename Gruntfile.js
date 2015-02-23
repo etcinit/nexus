@@ -5,8 +5,8 @@ module.exports = function (grunt) {
         concat: {
             dist: {
                 src: [
-                    'browser/*.js',
-                    'browser/*/**.js'
+                    'resources/browser/*.js',
+                    'resources/browser/*/**.js'
                 ],
                 dest: 'public/js/app.js'
             }
@@ -27,7 +27,7 @@ module.exports = function (grunt) {
                 },
 
                 files: {
-                    'public/css/app.css': 'scss/app.scss'
+                    'public/css/app.css': 'resources/scss/app.scss'
                 }
             }
         },
@@ -45,12 +45,12 @@ module.exports = function (grunt) {
 
         watch: {
             sass: {
-                files: 'scss/**/*.scss',
+                files: 'resources/scss/**/*.scss',
                 tasks: ['sass', 'autoprefixer']
             },
 
             js: {
-                files: 'browser/**/*.js',
+                files: 'resources/browser/**/*.js',
                 tasks: ['concat']
             }
         }

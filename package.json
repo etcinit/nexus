@@ -1,7 +1,7 @@
 {
-  "name": "confignexus",
+  "name": "nexus",
   "version": "0.5.0",
-  "description": "Configuration server",
+  "description": "Application configuration server",
   "main": "app.js",
   "directories": {
     "test": "tests"
@@ -58,7 +58,7 @@
     "url": "https://github.com/eduard44/nexus.git"
   },
   "author": "Eduardo Trujillo <ed@chromabits.com>",
-  "license": "GPL v2",
+  "license": "MIT",
   "bugs": {
     "url": "https://github.com/eduard44/nexus/issues"
   },

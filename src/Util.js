@@ -46,7 +46,8 @@ class Util
      */
     static randomToken ()
     {
-        var chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789',
+        var chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'
+                + 'abcdefghijklmnopqrstuvwxyz0123456789',
             result = '';
 
         for (let i = 0; i < 64; i++) {

@@ -19,7 +19,10 @@ class Migrator
      */
     constructor() {
         this.migrator = db.sequelize.getMigrator({
-            path: path.resolve(process.cwd(), 'migrations')
+            path: path.resolve(
+                process.cwd(),
+                'resources/migrations'
+            )
         });
     }
 

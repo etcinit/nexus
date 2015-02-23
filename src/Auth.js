@@ -209,25 +209,6 @@ class Auth
 
         next();
     }
-
-    /**
-     * Middleware for protecting routes
-     *
-     * @param req
-     * @param res
-     * @param next
-     */
-    protect (req, res, next)
-    {
-        if (req.user) {
-            res.locals.user = req.user.values;
-            next();
-            return;
-        }
-
-        res.redirect('/');
-        next('route');
-    }
 }
 
 module.exports = Auth;

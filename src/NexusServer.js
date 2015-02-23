@@ -68,6 +68,7 @@ class NexusServer
         app.set('view engine', 'html');
         app.set('layout', 'layout');
         //app.enable('view cache');
+        app.set('views', 'resources/views');
         app.engine('html', hoganExpress);
 
         // Setup version info
