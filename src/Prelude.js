@@ -3,8 +3,6 @@
 var argv = require('optimist').argv,
     winston = require('winston');
 
-var Migrator = use('Database/Migrator');
-
 /**
  * Class Prelude
  *
@@ -16,9 +14,11 @@ class Prelude
      * Constructs an instance of a Prelude
      *
      * @param Config
+     * @param Database_Migrator
      */
-    constructor(Config) {
+    constructor(Config, Database_Migrator) {
         this.config = Config;
+        this.migrator = Database_Migrator;
 
         this.loadServer = true;
     }
@@ -45,11 +45,9 @@ class Prelude
         if (argv.migrate || process.env.MIGRATE === 'true') {
             winston.warn('Running migrations...');
 
-            let migrator = new Migrator();
-
             // Check if we are rolling back migrations
             if (argv.rollback) {
-                migrator.down()
+                this.migrator.down()
                     .success(() => {
                         winston.info('Successfully rolled back migrations!');
                     })
@@ -64,7 +62,7 @@ class Prelude
                 return;
             }
 
-            migrator.up()
+            this.migrator.up()
                 .success(() => {
                     winston.info('Successfully ran migrations!');
                 })

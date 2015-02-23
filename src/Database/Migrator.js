@@ -3,7 +3,7 @@
 var fs = require('fs'),
     path = require('path'),
 
-    db = require('../Models');
+    db = use('Models/index');
 
 /**
  * Class Migrator

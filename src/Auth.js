@@ -1,201 +1,233 @@
-"use strict";
+'use strict';
 
-var Auth,
-
-    db = require('./Models'),
+let db = use('Models/index'),
     q = require('q'),
     bcrypt = require('bcrypt'),
     passport = require('passport'),
     LocalStrategy = require('passport-local').Strategy;
 
-Auth = function (app) {
-    this.app = app;
-};
-
 /**
- * Hash a password using bcrypt
+ * Class Auth
  *
- * @param password
- * @returns {promise|Q.promise}
+ * Handles authentication in Nexus
  */
-Auth.hash = function (password) {
-    var deferred = q.defer();
+class Auth
+{
+    /**
+     * Construct an instance of Auth
+     *
+     * @param ExpressApp
+     */
+    constructor (ExpressApp)
+    {
+        this.app = ExpressApp;
+    }
 
-    bcrypt.hash(password, 10, function (err, hash) {
-        if (err) {
-            deferred.reject(err);
-            return;
-        }
+    /**
+     * Hash a password using bcrypt
+     *
+     * @param password
+     * @returns {promise|Q.promise}
+     */
+    static hash (password)
+    {
+        var deferred = q.defer();
 
-        deferred.resolve(hash);
-    });
+        bcrypt.hash(password, 10, function (err, hash) {
+            if (err) {
+                deferred.reject(err);
+                return;
+            }
 
-    return deferred.promise;
-};
-
-/**
- * Check if a password matches the hash
- *
- * @param password
- * @param hash
- * @returns {promise|Q.promise}
- */
-Auth.compare = function (password, hash) {
-    var deferred = q.defer();
-
-    bcrypt.compare(password, hash, function (err, result) {
-        if (err) {
-            deferred.reject(err);
-            return;
-        }
-
-        deferred.resolve(result);
-    });
-
-    return deferred.promise;
-};
-
-/**
- * Setup passport.js
- */
-Auth.prototype.setupPassport = function () {
-    this.app.use(passport.initialize());
-
-    this.app.use(passport.session());
-
-    this.app.use(this.middleware);
-
-    passport.use(this.getStrategy());
-
-    passport.serializeUser(this.serializeUser);
-    passport.deserializeUser(this.deserializeUser);
-};
-
-/**
- * Get authentication strategy
- *
- * @returns {LocalStrategy}
- */
-Auth.prototype.getStrategy = function () {
-    return new LocalStrategy(function (username, password, done) {
-        db.User
-            .find({
-                where: {
-                    username: username
-                }
-            })
-            .success(function (user) {
-                if (user === null) {
-                    done(null, false, {message: 'Invalid username/password combination'});
-                    return;
-                }
-
-                Auth
-                    .compare(password, user.password)
-                    .then(function (result) {
-                        if (result) {
-                            done(null, user);
-                        } else {
-                            done(null, false, {message: 'Invalid username/password combination'});
-                        }
-                    }, function (reason) {
-                        done(null, false, {message: 'Invalid username/password combination'});
-                    });
-            })
-            .error(function (err) {
-                done(false);
-            });
-    });
-};
-
-/**
- * Serialize user for session
- *
- * @param user
- * @param done
- */
-Auth.prototype.serializeUser = function (user, done) {
-    done(null, user.id);
-};
-
-/**
- * Deserialize user from session
- *
- * @param id
- * @param done
- */
-Auth.prototype.deserializeUser = function (id, done) {
-    db.User
-        .find(id)
-        .success(function (user) {
-            done(null, user);
-        })
-        .error(function (error) {
-            done(error);
+            deferred.resolve(hash);
         });
-};
 
-/**
- * Create a simple default user for initial setup
- */
-Auth.prototype.createDefaultUser = function () {
-    return Auth.hash('toor')
-        .then(function (hash) {
-            return db.User
-                .create({
+        return deferred.promise;
+    }
+
+    /**
+     * Check if a password matches the hash
+     *
+     * @param password
+     * @param hash
+     * @returns {promise|Q.promise}
+     */
+    static compare (password, hash)
+    {
+        var deferred = q.defer();
+
+        bcrypt.compare(password, hash, function (err, result) {
+            if (err) {
+                deferred.reject(err);
+                return;
+            }
+
+            deferred.resolve(result);
+        });
+
+        return deferred.promise;
+    }
+
+    /**
+     * Setup passport.js
+     */
+    setupPassport ()
+    {
+        this.app.use(passport.initialize());
+
+        this.app.use(passport.session());
+
+        this.app.use(this.middleware);
+
+        passport.use(this.getStrategy());
+
+        passport.serializeUser(this.serializeUser);
+        passport.deserializeUser(this.deserializeUser);
+    }
+
+    /**
+     * Get authentication strategy
+     *
+     * @returns {LocalStrategy}
+     */
+    getStrategy ()
+    {
+        let errorMessage = 'Invalid username/password combination';
+
+        return new LocalStrategy(function (username, password, done) {
+            db.User
+                .find({
+                    where: {
+                        username: username
+                    }
+                })
+                .success((user) => {
+                    if (user === null) {
+                        return done(null, false, {message: errorMessage});
+                    }
+
+                    Auth.compare(password, user.password)
+                        .then((result) => {
+                            if (result) {
+                                done(null, user);
+                            } else {
+                                done(null, false, {message: errorMessage});
+                            }
+                        }, (reason) => {
+                            done(null, false, {message: errorMessage});
+                        });
+                })
+                .error((err) => {
+                    done(false);
+                });
+        });
+    }
+
+    /**
+     * Serialize user for session
+     *
+     * @param user
+     * @param done
+     */
+    serializeUser (user, done)
+    {
+        done(null, user.id);
+    }
+
+    /**
+     * Deserialize user from session
+     *
+     * @param id
+     * @param done
+     */
+    deserializeUser (id, done)
+    {
+        db.User.find(id)
+            .success((user) => {
+                done(null, user);
+            })
+            .error((error) => {
+                done(error);
+            });
+    }
+
+    /**
+     * Create a simple default user for initial setup
+     */
+    createDefaultUser ()
+    {
+        return Auth.hash('toor')
+            .then((hash) => {
+                return db.User.create({
                     username: 'root',
                     password: hash
                 });
-        });
-};
+            });
+    }
 
-Auth.prototype.authenticate = function (req, res, next) {
-    passport.authenticate(
-        'local',
-        function (err, user, info) {
-            if (err) {
-                next(err);
-                return;
-            }
-
-            if (!user) {
-                req.flash('errorMessages', ['Invalid username/password combination']);
-                res.redirect('/login');
-                return;
-            }
-
-            req.logIn(user, function (err) {
+    authenticate (req, res, next)
+    {
+        passport.authenticate('local', (err, user, info) => {
                 if (err) {
-                    next(err);
-                    return;
+                    return next(err);
                 }
 
-                res.redirect('/');
-            });
+                if (!user) {
+                    req.flash(
+                        'errorMessages',
+                        ['Invalid username/password combination']
+                    );
+                    return res.redirect('/login');
+                }
+
+                req.logIn(user, (err) => {
+                    if (err) {
+                        return next(err);
+                    }
+
+                    res.redirect('/');
+                });
+            }
+        )(req, res, next);
+    }
+
+    /**
+     * Middleware for getting user information
+     *
+     * @param req
+     * @param res
+     * @param next
+     */
+    middleware (req, res, next)
+    {
+        if (req.user) {
+            res.locals.user = req.user;
+            res.locals.loggedIn = true;
+        } else {
+            res.locals.loggedOut = true;
         }
-    )(req, res, next);
-};
 
-Auth.prototype.middleware = function (req, res, next) {
-    if (req.user) {
-        res.locals.user = req.user;
-        res.locals.loggedIn = true;
-    } else {
-        res.locals.loggedOut = true;
-    }
-
-    next();
-};
-
-Auth.prototype.protect = function (req, res, next) {
-    if (req.user) {
-        res.locals.user = req.user.values;
         next();
-        return;
     }
 
-    res.redirect('/');
-    next('route');
-};
+    /**
+     * Middleware for protecting routes
+     *
+     * @param req
+     * @param res
+     * @param next
+     */
+    protect (req, res, next)
+    {
+        if (req.user) {
+            res.locals.user = req.user.values;
+            next();
+            return;
+        }
+
+        res.redirect('/');
+        next('route');
+    }
+}
 
 module.exports = Auth;

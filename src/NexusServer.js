@@ -40,12 +40,8 @@ NexusServer = function (Config) {
     // Setup logging
     this.setupLog();
 
-    // Setup body parser
-
-    // Parse application/x-www-form-urlencoded
+    // Setup body parsers
     app.use(bodyParser.urlencoded({ extended: false }));
-
-    // Parse application/json
     app.use(bodyParser.json());
 
     // Setup session
@@ -63,7 +59,7 @@ NexusServer = function (Config) {
     });
 
     // Setup authentication
-    this.auth = new Auth(app);
+    this.auth = container.make('Auth');
     this.auth.setupPassport();
     container.instance('Auth', this.auth);
 
@@ -181,6 +177,8 @@ NexusServer.prototype.setupLog = function () {
         'Nexus Configuration Server v',
         version.major, '.', version.minor, '.', version.revision
     ].join(''));
+
+    container.instance('Logger', winston);
 };
 
 module.exports = NexusServer;

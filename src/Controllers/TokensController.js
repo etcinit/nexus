@@ -5,6 +5,8 @@ var TokensController,
     db,
     moment;
 
+let ValidationException = use('Validation/Exceptions/ValidationException');
+
 /**
  * Tokens controller
  *
@@ -121,54 +123,27 @@ TokensController.prototype.getNew = function (req, res, next) {
  * @param next
  */
 TokensController.prototype.postNew = function (req, res, next) {
-    var validationErrors = [];
+    let TokenManager = container.make('Api/TokenManager'),
+        Logger = container.make('Logger');
 
-    db.Application
-        .findAll()
-        .then(function (applications) {
-            var appIds,
-                newToken,
-                expirationDate;
-
-            // Check there is at least one app
-            if (applications.length < 1) {
-                validationErrors.push('There must be at least on application defined before creating a token');
-                throw new Error();
-            }
-
-            // Check expiration time is valid
-            if (req.body.days < 1 || req.body.days > 30000) {
-                validationErrors.push('Select a valid number of days (0-30000)');
-                throw new Error();
-            }
-
-            // Calculate expiration date
-            expirationDate = moment();
-            expirationDate.add('days', req.body.days);
-
-            // Collect input
-            newToken = db.ApplicationToken.build({
-                token: Util.randomToken(),
-                comment: req.body.comment,
-                ApplicationId: req.body.applicationId,
-                expiration_date: expirationDate.toDate()
-            });
-
-            // Validate token
-            validationErrors = Util.errorsToArray(newToken.validate());
-
-            if (validationErrors.length > 0) {
-                throw new Error();
-            }
-
-            return newToken.save();
-        })
+    TokenManager
+        .create(
+            req.body.applicationId,
+            Number(req.body.days),
+            req.body.comment
+        )
         .then(function () {
             req.flash('successMessages', ['Successfully generated new token']);
             res.redirect('/tokens');
         })
         .catch(function (err) {
-            req.flash('errorMessages', validationErrors);
+            if (err instanceof ValidationException) {
+                req.flash('errorMessages', err.getMessages());
+            } else {
+                req.flash('errorMessages', 'An error occurred');
+                Logger.log(err);
+            }
+
             res.redirect('/tokens');
         });
 };
@@ -181,8 +156,9 @@ TokensController.prototype.postNew = function (req, res, next) {
  * @param next
  */
 TokensController.prototype.getRevoke = function (req, res, next) {
-    db.ApplicationToken
-        .find(req.params.id)
+    let TokenManager = container.make('Api/TokenManager');
+
+    TokenManager.find(req.params.id)
         .then(function (token) {
             res.locals.token = token;
             res.render('tokens/revoke');
@@ -201,19 +177,18 @@ TokensController.prototype.getRevoke = function (req, res, next) {
  * @param next
  */
 TokensController.prototype.postRevoke = function (req, res, next) {
-    db.ApplicationToken
-        .find(req.params.id)
-        .then(function (token) {
-            token.expiration_date = new Date();
+    let TokenManager = container.make('Api/TokenManager');
 
-            return token.save();
-        })
+    TokenManager.revoke(req.params.id)
         .then(function () {
             req.flash('successMessages', ['Successfully revoked token']);
             res.redirect('/tokens');
         })
         .catch(function (err) {
-            req.flash('errorMessages', ['Unable to find/process the specified token']);
+            req.flash(
+                'errorMessages',
+                ['Unable to find/process the specified token']
+            );
             res.redirect('/tokens');
         });
 };

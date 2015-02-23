@@ -2,14 +2,14 @@
 
 require('ensure.js');
 require("babel/register"); // Use ES6
+require('enclosure').bootstrap();
 
-var enclosure = require('enclosure'),
-    path = require('path');
+var path = require('path');
 
-var Application = enclosure.Chromabits.Container.Application,
-    Loader = enclosure.Chromabits.Loader.Loader,
-    DirectoryMapper = enclosure.Chromabits.Mapper.DirectoryMapper,
-    EnclosureMap = enclosure.Chromabits.Mapper.EnclosureClassMap;
+var Application = use('Chromabits/Container/Application'),
+    Loader = use('Chromabits/Loader/Loader'),
+    DirectoryMapper = use('Chromabits/Mapper/DirectoryMapper'),
+    EnclosureMap = use('Chromabits/Mapper/EnclosureClassMap');
 
 // Setup class autoloading
 var loader = new Loader();
@@ -20,9 +20,9 @@ loader.addMap(EnclosureMap);
 
 // Start the service container
 var application = new Application();
-application.installTo(global);
 
-container.setLoader(loader);
+application.setLoader(loader);
+application.installTo(global);
 
 // Register providers
 container.addProvider('Providers/ConfigServiceProvider');
