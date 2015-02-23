@@ -1,25 +1,19 @@
-"use strict";
+'use strict';
 
-var TokensController,
-    Util,
-    db,
-    moment;
+let moment = require('moment');
 
-let ValidationException = use('Validation/Exceptions/ValidationException');
+let ValidationException = use('Validation/Exceptions/ValidationException'),
+    Util = use('Util'),
+    db = use('Models/index');
+
+var TokensController;
 
 /**
  * Tokens controller
  *
- * @param app
  * @constructor
  */
-TokensController = function (app) {
-    this.app = app;
-
-    Util = require('../Util');
-    db = require('../Models');
-    moment = require('moment');
-};
+TokensController = function () {};
 
 /**
  * Get a list of all tokens

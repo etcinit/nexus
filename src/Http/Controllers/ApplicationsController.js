@@ -1,31 +1,28 @@
-"use strict";
+'use strict';
+
+let winston = require('winston'),
+    moment = require('moment'),
+    Q = require('q'),
+    zip = require('adm-zip');
+
+let Util = use('Util'),
+    db = use('Models/index');
 
 var ApplicationsController,
     self,
-    db,
-    winston,
-    Util,
-    moment,
-    Q,
-    zip,
     loggerInstance;
 
 /**
  * Applications controller
  *
- * @param {NexusServer} app
+ * @param Config
+ * @param Logger
  * @constructor
  */
-ApplicationsController = function (app) {
+ApplicationsController = function (Config, Logger) {
     self = this;
-    this.app = app;
-    db = require('../Models');
-    winston = require('winston');
-    Util = require('../Util');
-    moment = require('moment');
-    Q = require('q');
-    zip = require('adm-zip');
-    loggerInstance = new (require('../Logging/Logger'))(app.NexusServer.config);
+
+    loggerInstance = Logger;
 };
 
 /**

@@ -1,21 +1,16 @@
-"use strict";
+'use strict';
 
-var FilesController,
-    Util,
-    db;
+let Util = use('Util'),
+    db = use('Models/index');
+
+var FilesController;
 
 /**
  * Files controller
  *
- * @param app
  * @constructor
  */
-FilesController = function (app) {
-    this.app = app;
-
-    db = require('../Models');
-    Util = require('../Util');
-};
+FilesController = function () {};
 
 /**
  * Get list of files available

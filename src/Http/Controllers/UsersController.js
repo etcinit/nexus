@@ -1,6 +1,6 @@
-"use strict";
+'use strict';
 
-var Util = use('Util'),
+let Util = use('Util'),
     Auth = use('Auth'),
     db = use('Models/index');
 
@@ -12,10 +12,6 @@ var Util = use('Util'),
  */
 class UsersController
 {
-    construct(ExpressApp) {
-        this.app = ExpressApp;
-    }
-
     /**
      * Get list of users
      *
@@ -23,7 +19,8 @@ class UsersController
      * @param res
      * @param next
      */
-    getIndex(req, res, next) {
+    getIndex (req, res, next)
+    {
         // Get ID of the currently logged in user
         var userId = req.user.values.id;
 
@@ -58,7 +55,8 @@ class UsersController
      * @param res
      * @param next
      */
-    getNew(req, res, next) {
+    getNew (req, res, next)
+    {
         return res.render('users/new');
     }
 
@@ -69,7 +67,8 @@ class UsersController
      * @param res
      * @param next
      */
-    postNew(req, res, next) {
+    postNew (req, res, next)
+    {
         var newUser,
             validationErrors;
 
@@ -127,7 +126,8 @@ class UsersController
      * @param res
      * @param next
      */
-    getEdit(req, res, next) {
+    getEdit (req, res, next)
+    {
         if (Number(res.locals.user.id) !== Number(req.params.id)) {
             req.flash('errorMessages', ['You cannot change other user passwords']);
             res.redirect('/users');
@@ -159,7 +159,8 @@ class UsersController
      * @param res
      * @param next
      */
-    postEdit(req, res, next) {
+    postEdit (req, res, next)
+    {
         var validationErrors;
 
         if (Number(res.locals.user.id) !== Number(req.params.id)) {
@@ -220,7 +221,8 @@ class UsersController
      * @param res
      * @param next
      */
-    getDelete(req, res, next) {
+    getDelete (req, res, next)
+    {
         if (Number(res.locals.user.id) === Number(req.params.id)) {
             req.flash('errorMessages', ['You cannot delete yourself']);
             res.redirect('/users');
@@ -252,7 +254,8 @@ class UsersController
      * @param res
      * @param next
      */
-    postDelete(req, res, next) {
+    postDelete (req, res, next)
+    {
         if (Number(res.locals.user.id) === Number(req.params.id)) {
             req.flash('errorMessages', ['You cannot delete yourself']);
             res.redirect('/users');

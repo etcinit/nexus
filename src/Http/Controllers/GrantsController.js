@@ -1,15 +1,11 @@
-"use strict";
+'use strict';
 
-var GrantsController,
-    Util,
-    db;
+let Util = use('Util'),
+    db = use('Models/index');
 
-GrantsController = function (app) {
-    this.app = app;
+var GrantsController;
 
-    db = require('../Models');
-    Util = require('../Util');
-};
+GrantsController = function () {};
 
 /**
  * Get list of all grants made

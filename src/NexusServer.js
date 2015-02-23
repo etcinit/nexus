@@ -1,7 +1,6 @@
 "use strict";
 
-var Router = require('./Router'),
-    Auth = require('./Auth'),
+var Auth = require('./Auth'),
     express = require('express'),
     bodyParser = require('body-parser'),
     session = require('express-session'),
@@ -170,7 +169,7 @@ NexusServer.prototype.setupLog = function () {
         fs.mkdir(logDir);
     }
 
-    winston.add(winston.transports.File, { filename: logFile });
+    //winston.add(winston.transports.File, { filename: logFile });
     //winston.remove(winston.transports.Console);
 
     winston.info([

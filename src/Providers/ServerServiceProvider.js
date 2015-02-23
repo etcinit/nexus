@@ -2,7 +2,7 @@
 
 var ServiceProvider = use('Chromabits/Container/ServiceProvider'),
     NexusServer = use('NexusServer'),
-    Router = use('Router');
+    Router = use('Http/Router');
 
 /**
  * Provides the main server service
