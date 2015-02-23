@@ -1,78 +1,77 @@
-"use strict";
+'use strict';
 
-var Util,
-    path = require('path');
-
-/**
- * Nexus utility classes
- *
- * @constructor
- */
-Util = function () {
-
-};
+let path = require('path');
 
 /**
- * Get a path to the root of application
+ * Class Util
  *
- * @returns {string}
+ * Utility functions for Nexus
  */
-Util.getRootPath = function ()
+class Util
 {
-    return path.resolve(__dirname + '/../');
-};
+    /**
+     * Get a path to the root of application
+     *
+     * @returns {string}
+     */
+    static getRootPath ()
+    {
+        return path.resolve(__dirname + '/../');
+    }
 
-/**
- * Parses sequelize errors into a mustache.js friendly array
- *
- * @param errors
- */
-Util.errorsToArray = function (errors) {
-    var errorsArray = [],
-        i;
+    /**
+     * Parses sequelize errors into a mustache.js friendly array
+     *
+     * @param errors
+     */
+    static errorsToArray (errors)
+    {
+        var errorsArray = [];
 
-    for (i in errors) {
-        if (errors.hasOwnProperty(i)) {
-            errors[i].forEach(function (message) {
-                errorsArray.push(message);
-            });
+        for (var i in errors) {
+            if (errors.hasOwnProperty(i)) {
+                errors[i].forEach(function (message) {
+                    errorsArray.push(message);
+                });
+            }
         }
+
+        return errorsArray;
     }
 
-    return errorsArray;
-};
+    /**
+     * Generate a random token
+     *
+     * @returns {string}
+     */
+    static randomToken ()
+    {
+        var chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789',
+            result = '';
 
-/**
- * Generate a random token
- *
- * @returns {string}
- */
-Util.randomToken = function () {
-    var chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789',
-        result = '';
+        for (let i = 0; i < 64; i++) {
+            result += chars.charAt(Math.floor(Math.random() * chars.length));
+        }
 
-    for( var i=0; i < 64; i++ ) {
-        result += chars.charAt(Math.floor(Math.random() * chars.length));
+        return result;
     }
 
-    return result;
-};
+    /**
+     * Checks if the subject string begins with prefix
+     *
+     * @param prefix
+     * @param subject
+     * @returns {boolean}
+     */
+    static beginsWith (prefix, subject) {
+        if (subject.length < prefix.length) {
+            return false;
+        }
 
-/**
- * Checks if the subject string begins with prefix
- *
- * @param prefix
- * @param subject
- * @returns {boolean}
- */
-Util.beginsWith = function (prefix, subject) {
-    if (subject.length < prefix.length) {
-        return false;
+        let subString = subject.substr(0, prefix.length);
+
+        return subString === prefix;
     }
-
-    var subString = subject.substr(0, prefix.length);
-
-    return subString === prefix;
-};
+}
 
 module.exports = Util;

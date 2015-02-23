@@ -1,6 +1,6 @@
 'use strict';
 
-var argv = require('optimist').argv,
+let argv = require('optimist').argv,
     winston = require('winston');
 
 /**
@@ -16,7 +16,8 @@ class Prelude
      * @param Config
      * @param Database_Migrator
      */
-    constructor(Config, Database_Migrator) {
+    constructor (Config, Database_Migrator)
+    {
         this.config = Config;
         this.migrator = Database_Migrator;
 
@@ -26,7 +27,8 @@ class Prelude
     /**
      * Prepare the environment
      */
-    run() {
+    run ()
+    {
         // Check if we need to rebuild the database
         if (argv.rebuild) {
             winston.warn(
@@ -79,7 +81,8 @@ class Prelude
      *
      * @returns {bool}
      */
-    shouldLoadServer() {
+    shouldLoadServer ()
+    {
         return this.loadServer;
     }
 }
