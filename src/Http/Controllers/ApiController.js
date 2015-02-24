@@ -9,7 +9,8 @@ let Util = use('Util'),
     CleanFilenameRule = use('Validation/CleanFilenameRule'),
     db = use('Models/index');
 
-let loggerInstance;
+let loggerInstance,
+    server;
 
 /**
  * Class ApiController
@@ -22,10 +23,12 @@ class ApiController
      * Constructs an instance of an ApiController
      *
      * @param Logger
+     * @param NexusServer
      */
-    constructor (Logger)
+    constructor (Logger, NexusServer)
     {
         loggerInstance = Logger;
+        server = NexusServer;
     }
 
     /**
@@ -41,7 +44,8 @@ class ApiController
 
         return res.send(JSON.stringify({
             status: 'success',
-            messages: ['This is NexusConfig v1']
+            messages: ['This is the Nexus Configuration Server API'],
+            version: server.getVersion()
         }));
     }
 
