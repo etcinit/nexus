@@ -13,7 +13,7 @@
     "bcrypt": "^0.7.8",
     "body-parser": "^1.5.0",
     "connect-flash": "^0.1.1",
-    "enclosure": "git://github.com/etcinit/enclosure#develop",
+    "enclosure": "^0.1.0",
     "ensure.js": "git://github.com/etcinit/ensure#node",
     "express": "^4.6.1",
     "express-session": "^1.7.0",
@@ -62,5 +62,14 @@
   "bugs": {
     "url": "https://github.com/eduard44/nexus/issues"
   },
-  "homepage": "https://github.com/eduard44/nexus"
+  "homepage": "https://github.com/eduard44/nexus",
+  "providers": [
+    "Providers/ConfigServiceProvider",
+    "Providers/PreludeServiceProvider",
+    "Providers/ServerServiceProvider"
+  ],
+  "autoload": {
+    "roots": ["src"]
+  },
+  "entrypoint": "App"
 }
