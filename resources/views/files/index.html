@@ -31,6 +31,7 @@
             <tr>
                 <th>Name</th>
                 <th>Actions</th>
+                <th>Updated</th>
             </tr>
             </thead>
 
@@ -38,16 +39,19 @@
             {{#files}}
             <tr>
                 <td>
-                    {{name}}
+                    <a href="/files/{{id}}/edit">
+                        <i class="icon fa fa-file-o"></i>
+                        {{name}}
+                    </a>
                 </td>
                 <td>
-                    <a href="/files/{{id}}/edit">
-                        Edit
-                    </a>
-                    &nbsp;
                     <a href="/files/{{id}}/delete">
+                        <i class="icon fa fa-remove"></i>
                         Delete
                     </a>
+                </td>
+                <td>
+                    {{updated_at_display}}
                 </td>
             </tr>
             {{/files}}

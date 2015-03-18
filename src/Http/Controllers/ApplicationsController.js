@@ -3,7 +3,8 @@
 let winston = require('winston'),
     moment = require('moment'),
     Q = require('q'),
-    zip = require('adm-zip');
+    zip = require('adm-zip'),
+    _ = require('lodash');
 
 let Util = use('Util'),
     db = use('Models/index');
@@ -210,11 +211,28 @@ ApplicationsController.prototype.getEdit = function (req, res, next) {
                 ping.online = moment(ping.updatedAt).isAfter(moment().subtract(2, 'minutes'));
             });
 
+            // Decide whether to show ALL logs or just the ones for active
+            // instances
+            if (req.query.logs !== 'all') {
+                res.locals.instanceLogs = instanceLogs.filter((instanceLog) => {
+                    let matchingInstances = [];
+
+                    instancePings.forEach((ping) => {
+                        if (ping.instanceName === instanceLog.instanceName) {
+                            matchingInstances.push(ping);
+                        }
+                    });
+
+                    return matchingInstances.length > 0;
+                });
+            } else {
+                res.locals.instanceLogs = instanceLogs;
+            }
+
             res.locals.files = availableFiles;
             res.locals.grants = grants;
             res.locals.application = application;
             res.locals.instancePings = instancePings;
-            res.locals.instanceLogs = instanceLogs;
 
             res.render('applications/edit');
         })

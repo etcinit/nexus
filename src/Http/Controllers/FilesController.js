@@ -1,5 +1,7 @@
 'use strict';
 
+let moment = require('moment');
+
 let Util = use('Util'),
     db = use('Models/index');
 
@@ -23,7 +25,12 @@ FilesController.prototype.getIndex = function (req, res, next) {
     db.File
         .findAll()
         .success(function (files) {
+            files.forEach((file) => {
+                file.updated_at_display = moment(file.updatedAt).fromNow();
+            });
+
             res.locals.files = files;
+
             res.render('files/index');
         })
         .error(function (error) {

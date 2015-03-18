@@ -69,7 +69,9 @@
     "Providers/ServerServiceProvider"
   ],
   "autoload": {
-    "roots": ["src"]
+    "roots": [
+      "src"
+    ]
   },
   "entrypoint": "App"
 }
