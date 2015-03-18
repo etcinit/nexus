@@ -15,7 +15,7 @@ class ApplicationManager
      * @param applicationId
      * @returns {*}
      */
-    find(applicationId)
+    find (applicationId)
     {
         return db.Application.find(Number(applicationId));
     }
@@ -26,7 +26,7 @@ class ApplicationManager
      * @param applicationId
      * @returns {*}
      */
-    exists(applicationId)
+    exists (applicationId)
     {
         return this.exists(applicationId)
             .then((application) => {

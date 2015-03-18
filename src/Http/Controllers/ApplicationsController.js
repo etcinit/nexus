@@ -8,22 +8,37 @@ let winston = require('winston'),
 let Util = use('Util'),
     db = use('Models/index');
 
-var ApplicationsController,
-    self,
+let self,
+    appManager,
     loggerInstance;
 
-/**
- * Applications controller
- *
- * @param Config
- * @param Logger
- * @constructor
- */
-ApplicationsController = function (Config, Logger) {
-    self = this;
+class ApplicationsController
+{
+    constructor (Config, Logging_Logger, Applications_ApplicationManager) {
+        self = this;
 
-    loggerInstance = Logger;
-};
+        loggerInstance = Logging_Logger;
+        appManager = Applications_ApplicationManager;
+    }
+
+    getInstance (req, res, next)
+    {
+        let application;
+
+        appManager.find(Number(req.params.id)).then((result) => {
+            application = result;
+
+            return loggerInstance.all(String(application.id));
+        }).then((logs) => {
+            logs = logs.filter((log) => {
+                return log.instanceName === req.params.instance;
+            });
+
+            res.locals.application = application;
+            res.locals.logs = logs;
+        });
+    }
+}
 
 /**
  * Get a list of all applications
@@ -173,7 +188,6 @@ ApplicationsController.prototype.getEdit = function (req, res, next) {
             return loggerInstance.all(String(application.id));
         })
         .then(function (instanceLogs) {
-            console.log(instanceLogs);
             if (application === null) {
                 req.flash('errorMessages', ['Unable to find the specified application']);
                 res.redirect('/apps');

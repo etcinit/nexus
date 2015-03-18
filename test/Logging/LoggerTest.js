@@ -1,8 +1,8 @@
 "use strict";
 
-var Logger = require('../../src/Logging/Logger'),
+var Logger = use('Logging/Logger'),
 
-    TestingUtil = require('../../src/Testing/Util'),
+    TestingUtil = use('Testing/Util'),
 
     path = require('path'),
     fs = require('fs-extra'),
