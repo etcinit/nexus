@@ -17,7 +17,9 @@ __This is a work in progress__
 
 ## Clients
 
-- Node.js client library: [nexus-client-js](https://github.com/eduard44/nexus-client-js)
+- Nexii: A Nexus CLI tool: [nexii](https://github.com/etcinit/nexii)
+- Go client library: [nexus-client-go](https://github.com/etcinit/nexus-client-go)
+- Node.js client library: [nexus-client-js](https://github.com/etcinit/nexus-client-js)
 
 ## Requirements
 
